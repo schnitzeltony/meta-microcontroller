@@ -56,6 +56,8 @@ do_configure () {
 
 do_install_append() {
     # remove unncesssary files - they conflict with target gdb
-    rm -r ${datadir}/gdb/syscalls
-    rm -r ${datadir}/gdb/system-gdbinit
+    rm -rf ${D}/${datadir}/gdb/syscalls
+    rm -rf ${D}/${datadir}/gdb/system-gdbinit
+    # using rmdir is intended - it is going to fail if dir is no more empty
+    rmdir ${D}/${datadir}/gdb
 }
