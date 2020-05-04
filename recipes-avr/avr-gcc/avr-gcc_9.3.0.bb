@@ -26,7 +26,7 @@ DEPENDS = " \
 "
 DEPENDS_append_class-target = " ${BPN}-native"
 
-SRC_URI = "ftp://ftp.gnu.org/gnu/gcc/gcc-${PV}/gcc-${PV}.tar.xz"
+SRC_URI = "https://ftp.gnu.org/gnu/gcc/gcc-${PV}/gcc-${PV}.tar.xz"
 SRC_URI[md5sum] = "d00a144b771ddeb021b61aa205b7e345"
 SRC_URI[sha256sum] = "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
 
