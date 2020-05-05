@@ -51,7 +51,6 @@ EXTRA_OECONF_append_class-target = " \
     --with-ld=${STAGING_BINDIR_NATIVE}/avr-ld \
 "
 
-
 export AR_FOR_TARGET = "avr-ar"
 export AS_FOR_TARGET = "avr-as"
 export DLLTOOL_FOR_TARGET = "avr-dlltool"
@@ -94,7 +93,11 @@ FILES_${PN}-staticdev += " \
     ${libdir}/gcc/avr/9.3.0/*/*/*.a \
 "
 
-RDEPENDS_${PN}_class-target += "${PN}-staticdev"
+# as long as there is no other libc we can pin avr-libc
+RDEPENDS_${PN}_class-target += " \
+    ${PN}-staticdev \
+    avr-libc \
+"
 
 INSANE_SKIP_${PN} = "dev-so"
 
