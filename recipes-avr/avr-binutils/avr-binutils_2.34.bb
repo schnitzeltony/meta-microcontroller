@@ -40,6 +40,7 @@ do_configure () {
 do_install_append() {
     # remove some files conflicting with target utils
     rm -rf ${D}/${datadir}/locale
+    rm -rf ${D}/${datadir}/info
 }
 
 FILES_${PN} += "${prefix}/avr"
