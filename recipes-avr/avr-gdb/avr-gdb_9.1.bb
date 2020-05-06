@@ -60,4 +60,7 @@ do_install_append() {
     rm -rf ${D}/${datadir}/gdb/system-gdbinit
     # using rmdir is intended - it is going to fail if dir is no more empty
     rmdir ${D}/${datadir}/gdb
+
+    # remove some files conflicting with target utils
+    rm -rf ${D}/${datadir}/locale
 }

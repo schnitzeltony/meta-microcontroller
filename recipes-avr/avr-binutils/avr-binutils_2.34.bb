@@ -37,6 +37,11 @@ do_configure () {
 	done
 }
 
+do_install_append() {
+    # remove some files conflicting with target utils
+    rm -rf ${D}/${datadir}/locale
+}
+
 FILES_${PN} += "${prefix}/avr"
 SYSROOT_DIRS_append_class-native = " ${prefix}/avr"
 

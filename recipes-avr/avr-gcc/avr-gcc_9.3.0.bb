@@ -77,12 +77,16 @@ do_configure() {
 }
 
 do_install_append() {
+    # fix some host contamination - TBD: fix properly
     for file in `find ${D}/${libdir}/gcc/avr/${PV}/include`; do
         chown root:root $file
     done
     for file in `find ${D}/${libdir}/gcc/avr/${PV}/include-fixed`; do
         chown root:root $file
     done
+
+    # remove some files conflicting with target utils
+    rm -rf ${D}/${datadir}/locale
 }
 
 FILES_${PN} += "${libdir}/gcc/avr"
