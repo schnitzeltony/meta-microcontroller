@@ -23,3 +23,4 @@ do_install_append() {
 }
 
 RDEPENDS_${PN} += "perl"
+RRECOMMENDS_${PN} += "avr-udev-rules"

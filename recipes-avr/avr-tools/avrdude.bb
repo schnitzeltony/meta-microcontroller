@@ -22,3 +22,4 @@ SRCREV = "d6a0285c12ed5ec2776ddd651911ce9c3e7b4cda"
 S = "${WORKDIR}/git/${BPN}"
 PV = "6.3+git${SRCPV}"
 
+RRECOMMENDS_${PN} += "avr-udev-rules"
