@@ -1,0 +1,33 @@
+From 240db7c9792c0ece661f6f3e484e9f2991c815c1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Sun, 4 Oct 2020 19:16:53 +0200
+Subject: [PATCH] Do not try to find VTKCompileTools
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+We don't have those and cannot use native because host/target cannot be expected
+to share same 32/64bit-ness
+
+Upstream-Status: Inappropriate [OE specific]
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ CMakeLists.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0069560..6b40c6a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -60,7 +60,6 @@ include(vtkTesting)
+ include(vtkDirectories)
+ include(vtkMobileDevices)
+ include(vtkWrapSettings)
+-include(vtkCrossCompiling)
+ include(vtkObjectFactory)
+ 
+ set(CMAKE_INSTALL_LICENSEDIR ""
+-- 
+2.26.2
+
