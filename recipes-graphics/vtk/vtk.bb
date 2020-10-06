@@ -28,15 +28,20 @@ DEPENDS = " \
     libogg \
     proj \
     pugixml \
-    libharu \
     libxml2 \
     libpng \
     libtheora \
     glew \
     sqlite3 \
     jpeg \
-    graphviz \
 "
+# * libharu -> 2.4.0
+# * hdf5:
+#    * cmake complains for executable missing 
+#    * upgrade
+#    * mpich?
+# * -DVTK_WRAP_PYTHON=ON  VTK::WrapPythonInit: command not found
+
 
 ARCH_OECMAKE = " \
     -DH5_DISABLE_SOME_LDOUBLE_CONV_RUN__TRYRUN_OUTPUT=0 \
@@ -47,6 +52,7 @@ ARCH_OECMAKE_powerpc64le = " \
 
 # stolen from meta-oe'a hdf5 and adjusted to avoid TRY_RUN
 EXTRA_OECMAKE += " \
+    -DVTK_PYTHON_VERSION=3 \
     -DCMAKE_REQUIRE_LARGE_FILE_SUPPORT=0 \
     -DCMAKE_REQUIRE_LARGE_FILE_SUPPORT__TRYRUN_OUTPUT=0 \
     -DTEST_LFS_WORKS_RUN=0 \
@@ -67,31 +73,25 @@ EXTRA_OECMAKE += " \
     ${ARCH_OECMAKE} \
 "
 
-# We cannot use hdf5 from meta-oe: vtk needs hdf5 build with
-# HDF5_ENABLE_PARALLEL which requires openmpi and openmpi is a nasty 
-# challenge for us...
-# -DCMAKE_BUILD_TYPE=RelWithDebInfo 
 EXTRA_OECMAKE += " \
-    -DVTK_MODULE_USE_EXTERNAL_vtklz4=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkjsoncpp=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkexpat=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtktiff=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkeigen=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkfreetype=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkzlib=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkpegtl=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtklzma=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkogg=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtklibproj=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkpugixml=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtklibharu=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtklibxml2=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkpng=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtktheora=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkglew=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtksqlite=ON \
-    -DVTK_MODULE_USE_EXTERNAL_vtkjpeg=ON \
-    -DVTK_MODULE_USE_EXTERNAL_graphviz=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_lz4=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_jsoncpp=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_expat=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_tiff=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_eigen=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_freetype=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_zlib=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_pegtl=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_lzma=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_ogg=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_libproj=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_pugixml=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_libxml2=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_png=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_theora=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_glew=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_sqlite=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_jpeg=ON \
 "
 
 def qemu_run_binary_builddir(data, rootfs_path):
