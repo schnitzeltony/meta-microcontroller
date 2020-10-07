@@ -35,11 +35,13 @@ DEPENDS = " \
     sqlite3 \
     jpeg \
 "
-# * libharu -> 2.4.0
-# * hdf5:
-#    * cmake complains for executable missing 
-#    * upgrade
-#    * mpich?
+# we use ThirdParty hdf5 because of:
+#    * cmake complains for hdf5 executable missing in sysroot
+#    * we enable HDF5_ENABLE_PARALLEL unconditionally there is mpich planned
+
+# TODO
+# * meta-oe libharu -> 2.4.0
+# * pack vtk-compile tools int seperate package
 # * -DVTK_WRAP_PYTHON=ON  VTK::WrapPythonInit: command not found
 
 
