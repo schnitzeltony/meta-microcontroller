@@ -42,7 +42,6 @@ DEPENDS = " \
 
 # TODO
 # * meta-oe libharu -> 2.4.0
-# * pack vtk-compile tools int seperate package
 # * -DVTK_WRAP_PYTHON=ON  VTK::WrapPythonInit: command not found
 
 
@@ -117,6 +116,9 @@ do_configure_append() {
 # by adding executables to sysroot. In the case a consumer really needs one of
 # these helpers it has to do the same qemu dance we do
 SYSROOT_DIRS_append = " ${bindir}"
+
+PACKAGES =+ "${PN}-compile-tools"
+FILES_${PN}-compile-tools = "${bindir}/*${LIBEXT}"
 
 FILES_${PN}-doc += "${datadir}/licenses/VTK"
 
