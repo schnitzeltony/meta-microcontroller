@@ -109,5 +109,10 @@ do_configure_append() {
     done
 }
 
+# CMake is checking all files refereced whether used or not. Make it happy
+# by adding executables to sysroot. In the case a consumer really needs one of
+# these helpers it has to do the same qemu dance we do
+SYSROOT_DIRS_append = " ${bindir}"
+
 FILES_${PN}-doc += "${datadir}/licenses/VTK"
 
