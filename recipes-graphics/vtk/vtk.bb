@@ -34,6 +34,7 @@ DEPENDS = " \
     glew \
     sqlite3 \
     jpeg \
+    mpich \
 "
 # we use ThirdParty hdf5 because of:
 #    * cmake complains for hdf5 executable missing in sysroot
@@ -76,6 +77,7 @@ EXTRA_OECMAKE += " \
 "
 
 EXTRA_OECMAKE += " \
+    -DHDF5_ENABLE_PARALLEL=ON \
     -DVTK_MODULE_USE_EXTERNAL_VTK_lz4=ON \
     -DVTK_MODULE_USE_EXTERNAL_VTK_jsoncpp=ON \
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat=ON \
