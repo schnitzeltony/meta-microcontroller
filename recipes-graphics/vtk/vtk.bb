@@ -2,7 +2,7 @@ SUMMARY = "The Visualization Toolkit"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://Copyright.txt;md5=074efbe58f4b7cbec2a2f6e6bdcb31e1"
 
-inherit cmake qemu features_check
+inherit cmake qemu python3native features_check
 REQUIRED_DISTRO_FEATURES = "opengl x11"
 
 SRC_URI = " \
@@ -14,6 +14,12 @@ PV = "9.0.1"
 LIBEXT = "9.0"
 S = "${WORKDIR}/VTK-${PV}"
 
+# TODO
+# * meta-oe libharu -> 2.4.0
+
+# we use hdf5 supplied by vtk (see ThirdParty folder) because of:
+#    * cmake complains for hdf5 executable missing in sysroot
+#    * we enable HDF5_ENABLE_PARALLEL and add mpich to DEPENDS unconditionally
 DEPENDS = " \
     qemu-native \
     virtual/libgl \
@@ -35,15 +41,8 @@ DEPENDS = " \
     sqlite3 \
     jpeg \
     mpich \
+    python3 \
 "
-# we use ThirdParty hdf5 because of:
-#    * cmake complains for hdf5 executable missing in sysroot
-#    * we enable HDF5_ENABLE_PARALLEL unconditionally there is mpich planned
-
-# TODO
-# * meta-oe libharu -> 2.4.0
-# * -DVTK_WRAP_PYTHON=ON  VTK::WrapPythonInit: command not found
-
 
 ARCH_OECMAKE = " \
     -DH5_DISABLE_SOME_LDOUBLE_CONV_RUN__TRYRUN_OUTPUT=0 \
@@ -77,6 +76,8 @@ EXTRA_OECMAKE += " \
 
 EXTRA_OECMAKE += " \
     -DHDF5_ENABLE_PARALLEL=ON \
+    -DVTK_USING_MPI=ON \
+    -DVTK_WRAP_PYTHON=ON \
     -DVTK_MODULE_USE_EXTERNAL_VTK_lz4=ON \
     -DVTK_MODULE_USE_EXTERNAL_VTK_jsoncpp=ON \
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat=ON \
@@ -97,6 +98,9 @@ EXTRA_OECMAKE += " \
     -DVTK_MODULE_USE_EXTERNAL_VTK_jpeg=ON \
 "
 
+# We cannot use native vtk-compile-tools because buildhost and target can have
+# different 32/64bit-ness. So adjust build.ninja that tools are run with the
+# help of qemu.
 def qemu_run_binary_builddir(data, rootfs_path):
     libdir = rootfs_path + data.getVar("libdir")
     base_libdir = rootfs_path + data.getVar("base_libdir")
@@ -104,21 +108,30 @@ def qemu_run_binary_builddir(data, rootfs_path):
     return qemu_wrapper_cmdline(data, rootfs_path, [libdir, base_libdir, build_libdir])
 
 do_configure_append() {
-    # Since we cannot cannot use native vtk-compile-tools because host/target
-    # cannot be expected to share same 32/64bit-ness so ajust build.ninja so
-    # that tools ar run under qemu
-    for qemureplace in vtkH5detect vtkH5make_libsettings vtkParseJava-${LIBEXT} vtkWrapHierarchy-${LIBEXT} vtkWrapJava-${LIBEXT} vtkWrapPython-${LIBEXT} vtkWrapPythonInit-${LIBEXT}; do
-        sed -i 's|${B}/bin/'$qemureplace'|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/'$qemureplace'|g' ${B}/build.ninja
-    done
+    sed -i \
+        -e 's|${B}/bin/vtkH5detect|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/vtkH5detect|g' \
+        -e 's|${B}/bin/vtkH5make_libsettings|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/vtkH5make_libsettings|g' \
+        -e 's|${B}/bin/vtkParseJava-${LIBEXT}|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/vtkParseJava-${LIBEXT}|g' \
+        -e 's|${B}/bin/vtkWrapHierarchy-${LIBEXT}|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/vtkWrapHierarchy-${LIBEXT}|g' \
+        -e 's|${B}/bin/vtkWrapJava-${LIBEXT}|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/vtkWrapJava-${LIBEXT}|g' \
+        -e 's|${B}/bin/vtkWrapPython-${LIBEXT}|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/vtkWrapPython-${LIBEXT}|g' \
+        -e 's|${B}/bin/vtkWrapPythonInit-${LIBEXT}|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/vtkWrapPythonInit-${LIBEXT}|g' \
+        -e 's|VTK::WrapPythonInit|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/vtkWrapPythonInit-${LIBEXT}|g' \
+        ${B}/build.ninja
 }
 
-# CMake is checking all files refereced whether used or not. Make it happy
-# by adding executables to sysroot. In the case a consumer really needs one of
-# these helpers it has to do the same qemu dance we do
+# Consumer's CMake checks the existence of all files referenced even if they
+# are not needed for building. Make it happy by adding executables to sysroot.
+# In the case a consumer really needs one of these, it has to do the same qemu
+# dance as we do.
 SYSROOT_DIRS_append = " ${bindir}"
 
-PACKAGES =+ "${PN}-compile-tools"
+PACKAGES =+ "${PN}-compile-tools ${PN}-python"
 FILES_${PN}-compile-tools = "${bindir}/*${LIBEXT}"
 
 FILES_${PN}-doc += "${datadir}/licenses/VTK"
+
+FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}"
+# TODO??: mpish / wxpython
+RDEPENDS_${PN}-python = "python3-core python3-tkinter python3-numpy"
 
