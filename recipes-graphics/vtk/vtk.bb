@@ -8,6 +8,7 @@ REQUIRED_DISTRO_FEATURES = "opengl x11"
 SRC_URI = " \
     https://www.vtk.org/files/release/9.0/VTK-${PV}.tar.gz \
     file://0001-Do-not-try-to-find-VTKCompileTools.patch \
+    file://0002-Avoid-conflicts-struct-AllValues-with-definition-in-.patch \
 "
 SRC_URI[sha256sum] = "1b39a5e191c282861e7af4101eaa8585969a2de05f5646c9199a161213a622c7"
 PV = "9.0.1"
@@ -16,6 +17,7 @@ S = "${WORKDIR}/VTK-${PV}"
 
 # TODO
 # * meta-oe libharu -> 2.4.0
+# * Qt5 support
 
 # we use hdf5 supplied by vtk (see ThirdParty folder) because of:
 #    * cmake complains for hdf5 executable missing in sysroot

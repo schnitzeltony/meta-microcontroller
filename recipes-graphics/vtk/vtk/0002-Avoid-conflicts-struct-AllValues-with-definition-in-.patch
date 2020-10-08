@@ -1,0 +1,35 @@
+From 656f0ee217db93e6900c0005c3277e10afb3955c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 8 Oct 2020 22:04:38 +0200
+Subject: [PATCH] Avoid conflicts struct AllValues with definition in
+ X11/Xutil.h
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Pending
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ Common/Core/vtkDataArray.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Common/Core/vtkDataArray.h b/Common/Core/vtkDataArray.h
+index a28c545..0b1a526 100644
+--- a/Common/Core/vtkDataArray.h
++++ b/Common/Core/vtkDataArray.h
+@@ -39,6 +39,11 @@
+ #include "vtkCommonCoreModule.h"          // For export macro
+ #include "vtkVTK_USE_SCALED_SOA_ARRAYS.h" // For #define of VTK_USE_SCALED_SOA_ARRAYS
+ 
++// avoid conflicts with AllValues defined in X11/Xutil.
++#ifdef AllValues
++#undef AllValues
++#endif
++
+ class vtkDoubleArray;
+ class vtkIdList;
+ class vtkInformationStringKey;
+-- 
+2.26.2
+
