@@ -1,0 +1,66 @@
+From 77df79efccaa260e314f33f9add5868dd31ae84d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Wed, 7 Oct 2020 00:43:32 +0200
+Subject: [PATCH] Steal some fixes from archlinux & fedora
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Fixes installation - stolen from [1-2]
+
+[1] https://github.com/archlinux/svntogit-community/tree/packages/opencascade/trunk
+[2] https://src.fedoraproject.org/rpms/opencascade/blob/master/f/opencascade-cmake.patch
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ CMakeLists.txt                           | 2 +-
+ adm/cmake/occt_toolkit.cmake             | 6 +++---
+ adm/templates/OpenCASCADEConfig.cmake.in | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0b445de9f..6d81f887c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1122,7 +1122,7 @@ foreach (OCCT_CONFIGURATION ${CMAKE_CONFIGURATION_TYPES})
+ endforeach()
+ # install OpenCASCADE config file with compile definitions and C/C++ flags ONLY for current configuration
+ install (CODE "string (TOLOWER \"\${CMAKE_INSTALL_CONFIG_NAME}\" CMAKE_INSTALL_CONFIG_NAME_LOWER)")
+-install (CODE "configure_file(\"${CMAKE_BINARY_DIR}/OpenCASCADECompileDefinitionsAndFlags-\${CMAKE_INSTALL_CONFIG_NAME_LOWER}.cmake\" \"${INSTALL_DIR}/${INSTALL_DIR_CMAKE}/OpenCASCADECompileDefinitionsAndFlags-\${CMAKE_INSTALL_CONFIG_NAME_LOWER}.cmake\" COPYONLY)")
++install (CODE "configure_file(\"${CMAKE_BINARY_DIR}/OpenCASCADECompileDefinitionsAndFlags-\${CMAKE_INSTALL_CONFIG_NAME_LOWER}.cmake\" \"\$ENV{DESTDIR}${INSTALL_DIR}/${INSTALL_DIR_CMAKE}/OpenCASCADECompileDefinitionsAndFlags-\${CMAKE_INSTALL_CONFIG_NAME_LOWER}.cmake\" COPYONLY)")
+ 
+ foreach (OCCT_MODULE ${OCCT_MODULES})
+   if (BUILD_MODULE_${OCCT_MODULE})
+diff --git a/adm/cmake/occt_toolkit.cmake b/adm/cmake/occt_toolkit.cmake
+index f59b1639d..ff0fceac0 100644
+--- a/adm/cmake/occt_toolkit.cmake
++++ b/adm/cmake/occt_toolkit.cmake
+@@ -221,9 +221,9 @@ else()
+ 
+   install (TARGETS ${PROJECT_NAME}
+            EXPORT OpenCASCADE${CURRENT_MODULE}Targets
+-           RUNTIME DESTINATION "${INSTALL_DIR_BIN}\${OCCT_INSTALL_BIN_LETTER}"
+-           ARCHIVE DESTINATION "${INSTALL_DIR_LIB}\${OCCT_INSTALL_BIN_LETTER}"
+-           LIBRARY DESTINATION "${INSTALL_DIR_LIB}\${OCCT_INSTALL_BIN_LETTER}")
++           RUNTIME DESTINATION "${INSTALL_DIR_BIN}"
++           ARCHIVE DESTINATION "${INSTALL_DIR_LIB}"
++           LIBRARY DESTINATION "${INSTALL_DIR_LIB}")
+ 
+   if (NOT WIN32)
+     if (BUILD_SHARED_LIBS AND NOT "${BUILD_SHARED_LIBRARY_NAME_POSTFIX}" STREQUAL "")
+diff --git a/adm/templates/OpenCASCADEConfig.cmake.in b/adm/templates/OpenCASCADEConfig.cmake.in
+index 4937103b9..86c9ba2ce 100644
+--- a/adm/templates/OpenCASCADEConfig.cmake.in
++++ b/adm/templates/OpenCASCADEConfig.cmake.in
+@@ -26,7 +26,7 @@ get_filename_component (OpenCASCADE_INSTALL_PREFIX "${OpenCASCADE_INSTALL_PREFIX
+ if (OpenCASCADE_INSTALL_PREFIX MATCHES "/cmake$")
+   get_filename_component (OpenCASCADE_INSTALL_PREFIX "${OpenCASCADE_INSTALL_PREFIX}" PATH)
+ endif()
+-if (OpenCASCADE_INSTALL_PREFIX MATCHES "/lib$")
++if (OpenCASCADE_INSTALL_PREFIX MATCHES "/lib$" OR OpenCASCADE_INSTALL_PREFIX MATCHES "/lib64$")
+   get_filename_component (OpenCASCADE_INSTALL_PREFIX "${OpenCASCADE_INSTALL_PREFIX}" PATH)
+ endif()
+ if (OpenCASCADE_INSTALL_PREFIX MATCHES "/libs/${CMAKE_ANDROID_ARCH_ABI}$")
+-- 
+2.26.2
+
