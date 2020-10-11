@@ -7,8 +7,8 @@ inherit binconfig
 PACKAGECONFIG_append = " ${@bb.utils.filter('DISTRO_FEATURES', 'opengl', d)}"
 PACKAGECONFIG[opengl] = ",,libglu"
 
-do_unpack[postfuncs] += "do_unpack_nocross"
-do_unpack_nocross() {
+do_patch[postfuncs] += "do_patch_nocross"
+do_patch_nocross() {
     # This one will be patched in meta-oe but we cannot do same
     sed -i 's:@cross_compiling@:no:g' ${S}/wx-config.in
 }
