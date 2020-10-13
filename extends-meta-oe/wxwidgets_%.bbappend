@@ -22,5 +22,12 @@ do_compile_append() {
         # 2. make sure we do not move the file used for compiling into sysroot
         cp --remove-destination `readlink ${B}/wx-config | sed 's:inplace-::'` ${B}/wx-config
     fi
+    # 3. Set full sysroot paths so sstate can translate them when setting
+    #    up wxwidgets's consumer sysroots
+    sed -i \
+        -e 's,^includedir=.*,includedir="${STAGING_INCDIR}",g' \
+        -e 's,^libdir=.*",libdir="${STAGING_LIBDIR}",g' \
+        -e 's,^bindir=.*",bindir="${STAGING_BINDIR}",g' \
+        ${B}/wx-config
 }
 
