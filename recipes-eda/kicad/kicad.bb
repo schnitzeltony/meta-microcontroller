@@ -56,3 +56,7 @@ FILES_${PN} += " \
     ${datadir}/mime \
     ${PYTHON_SITEPACKAGES_DIR} \
 "
+
+RDEPENDS_${PV} += " \
+    ${PN}-symbols \
+"
