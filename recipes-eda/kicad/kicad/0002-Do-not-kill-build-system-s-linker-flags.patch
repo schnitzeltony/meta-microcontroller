@@ -1,0 +1,39 @@
+From f13d02023faa62c00c9565e080707c515b133904 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Wed, 14 Oct 2020 13:16:26 +0200
+Subject: [PATCH] Do not kill build system's linker flags
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Background:
+For proper cross build Openembedded build system (Yocto project) adds
+"--hash-style=gnu" to LDFLAGS and checks later with objdump if binaries
+contain GNU_HASH to ensure that a binary was linked with all
+(cross-specific) flags set.
+
+Upstream-Status: Pending
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f2cdd5a..49d9127 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -330,8 +330,8 @@ if( CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
+ 
+     elseif( NOT APPLE )
+         # Thou shalt not link vaporware and tell us it's a valid DSO (apple ld doesn't support it)
+-        set( CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined" )
+-        set( CMAKE_MODULE_LINKER_FLAGS "-Wl,--no-undefined" )
++        set( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined" )
++        set( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,--no-undefined" )
+ 
+         # Defeat ELF's ability to use the GOT to replace locally implemented functions
+         # with ones from another module.
+-- 
+2.26.2
+

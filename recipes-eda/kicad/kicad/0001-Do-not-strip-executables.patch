@@ -1,0 +1,26 @@
+From c6b86e087e652b1a5ee0f2a3aaad90281086a4e3 Mon Sep 17 00:00:00 2001
+From: "Steven A. Falco" <stevenfalco@gmail.com>
+Date: Tue, 12 May 2020 11:16:34 -0400
+Subject: [PATCH] Do not strip executables
+
+---
+ CMakeLists.txt | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 962fa3e80..ae8eee493 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -358,8 +358,6 @@ if( CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
+         set( CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined" )
+         set( CMAKE_MODULE_LINKER_FLAGS "-Wl,--no-undefined" )
+ 
+-        set( CMAKE_EXE_LINKER_FLAGS_RELEASE "-s" )
+-
+         # Defeat ELF's ability to use the GOT to replace locally implemented functions
+         # with ones from another module.
+         # https://bugs.launchpad.net/kicad/+bug/1322354
+-- 
+2.26.2
+
+

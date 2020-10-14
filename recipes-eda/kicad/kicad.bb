@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = " \
 DEPENDS = " \
     doxygen-native \
     swig-native \
+    boost \
     glew \
     glm \
     zlib \
@@ -24,7 +25,11 @@ inherit cmake python3native features_check gtk-icon-cache mime mime-xdg
 
 REQUIRED_DISTRO_FEATURES = "x11 opengl"
 
-SRC_URI = "https://gitlab.com/kicad/code/kicad/-/archive/${PV}/${BPN}-${PV}.tar.gz"
+SRC_URI = " \
+    https://gitlab.com/kicad/code/kicad/-/archive/${PV}/${BPN}-${PV}.tar.gz \
+    file://0001-Do-not-strip-executables.patch \
+    file://0002-Do-not-kill-build-system-s-linker-flags.patch \
+"
 SRC_URI[sha256sum] = "96ad30aa289ed6f77ffcd8283d0877b700139187e5f1957acad8ad4dbad472bc"
 PV = "5.1.7"
 
@@ -43,6 +48,7 @@ EXTRA_OECMAKE = " \
     -DKICAD_SCRIPTING_WXPYTHON=OFF \
     -DKICAD_SPICE=OFF \
     -DKICAD_USE_OCC=ON \
+    -DCMAKE_BUILD_TYPE=Release \
 "
 
 FILES_${PN} += " \
