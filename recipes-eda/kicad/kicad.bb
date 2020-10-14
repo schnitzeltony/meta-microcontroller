@@ -26,7 +26,7 @@ inherit cmake python3native features_check gtk-icon-cache mime mime-xdg
 REQUIRED_DISTRO_FEATURES = "x11 opengl"
 
 SRC_URI = " \
-    https://gitlab.com/kicad/code/kicad/-/archive/${PV}/${BPN}-${PV}.tar.gz \
+    https://gitlab.com/kicad/code/kicad/-/archive/${PV}/${BP}.tar.gz \
     file://0001-Do-not-strip-executables.patch \
     file://0002-Do-not-kill-build-system-s-linker-flags.patch \
 "
@@ -62,4 +62,5 @@ RDEPENDS_${PV} += " \
     ${PN}-footprints \
     ${PN}-packages3d \
     ${PN}-templates \
+    ${PN}-i18n \
 "
