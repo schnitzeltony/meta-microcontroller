@@ -59,4 +59,5 @@ FILES_${PN} += " \
 
 RDEPENDS_${PV} += " \
     ${PN}-symbols \
+    ${PN}-footprints \
 "
