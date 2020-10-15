@@ -19,6 +19,7 @@ DEPENDS = " \
     python3 \
     wxwidgets \
     opencascade \
+    ngspice \
 "
 
 inherit cmake python3native features_check gtk-icon-cache mime mime-xdg
@@ -46,7 +47,7 @@ EXTRA_OECMAKE = " \
     -DKICAD_BUILD_QA_TESTS=OFF \
     -DKICAD_SCRIPTING_PYTHON3=ON \
     -DKICAD_SCRIPTING_WXPYTHON=OFF \
-    -DKICAD_SPICE=OFF \
+    -DKICAD_SPICE=ON \
     -DKICAD_USE_OCC=ON \
     -DCMAKE_BUILD_TYPE=Release \
 "
