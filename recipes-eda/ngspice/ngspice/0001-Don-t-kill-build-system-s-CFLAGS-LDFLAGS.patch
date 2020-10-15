@@ -1,0 +1,59 @@
+From 9bdb78d8765f207961a0efdc353f34aa6df7c24f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 15 Oct 2020 14:10:08 +0200
+Subject: [PATCH] Don't kill build system's CFLAGS/LDFLAGS
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Pending
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ src/Makefile.am            | 8 ++++----
+ src/xspice/icm/makedefs.in | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 8364bb0..60db062 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -452,8 +452,8 @@ libspice_la_LIBADD += \
+ 	misc/libmisc.la \
+ 	$(LIBS)
+ 
+-libspice_la_CFLAGS = -shared
+-libspice_la_LDFLAGS =  -shared -Wl,--version-script=$(srcdir)/tclspice.map
++libspice_la_CFLAGS = $(CFLAGS) -shared
++libspice_la_LDFLAGS =  $(LDFLAGS) -shared -Wl,--version-script=$(srcdir)/tclspice.map
+ if TCLWIN
+ libspice_la_LDFLAGS +=  -no-undefined
+ libspice_la_LDFLAGS += --def spice.def @TCL_LIB_SPEC@
+@@ -568,9 +568,9 @@ libngspice_la_LIBADD += \
+ 	$(LIBS) \
+ 	$(OPENMP_CFLAGS)
+ 
+-libngspice_la_CFLAGS = -shared
++libngspice_la_CFLAGS = $(CFLAGS) -shared
+ 
+-libngspice_la_LDFLAGS =  -shared
++libngspice_la_LDFLAGS = $(LDFLAGS) -shared
+ 
+ if SHWIN
+ libngspice_la_LDFLAGS += -Wl,--output-def=ngspice.def  -Wl,--out-implib=ngspice.dll.a
+diff --git a/src/xspice/icm/makedefs.in b/src/xspice/icm/makedefs.in
+index e344507..977ae05 100644
+--- a/src/xspice/icm/makedefs.in
++++ b/src/xspice/icm/makedefs.in
+@@ -47,7 +47,7 @@ CMPP = @CMPP@
+ LIBS = -lm
+ 
+ # Flags to use when linking shared library
+-LDFLAGS = -shared
++LDFLAGS = -shared @LDFLAGS@
+ ifeq ($(ISMINGW), 1)
+   LDFLAGS = -shared @LDFLAGS@
+ endif
+-- 
+2.26.2
+
