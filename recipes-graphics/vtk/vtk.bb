@@ -24,6 +24,7 @@ S = "${WORKDIR}/VTK-${PV}"
 #    * we enable HDF5_ENABLE_PARALLEL and add mpich to DEPENDS unconditionally
 DEPENDS = " \
     qemu-native \
+    coreutils-native \
     virtual/libgl \
     lz4 \
     jsoncpp \
@@ -107,9 +108,27 @@ def qemu_run_binary_builddir(data, rootfs_path):
     libdir = rootfs_path + data.getVar("libdir")
     base_libdir = rootfs_path + data.getVar("base_libdir")
     build_libdir = data.getVar("B") + "/lib"
-    return qemu_wrapper_cmdline(data, rootfs_path, [libdir, base_libdir, build_libdir])
+    return qemu_wrapper_cmdline(data, rootfs_path, [libdir, base_libdir, build_libdir]).replace(qemu_target_binary(data), data.getVar("WORKDIR") + '/' + qemu_target_binary(data) + '-timeout')
+
+QEMU_TIMEOUT ?= "600"
 
 do_configure_append() {
+    # create qemu wrappers:
+    # * run one instance of qemu at a time (seems spawning many qemu instances
+    #   in short time can lead to zombie processes)
+    # * add timeout: run infinite is what makes using qemu suck
+    for qemu in `find ${STAGING_BINDIR_NATIVE} -name qemu-*`; do
+        qemu_name=`basename $qemu`
+        if [ "x${@qemu_target_binary(d)}" = "x$qemu_name" ]; then
+            wrapper_name="$qemu_name-timeout"
+            echo '#!/bin/sh' > ${WORKDIR}/$wrapper_name
+            echo 'set -e' >> ${WORKDIR}/$wrapper_name
+            echo "flock ${WORKDIR}/qemu.lock timeout ${QEMU_TIMEOUT} $qemu_name \$@" >> ${WORKDIR}/$wrapper_name
+            chmod +x ${WORKDIR}/$wrapper_name
+        fi
+    done
+
+    # Adjust ${B}/build.ninja so call qemu for cross helpers
     sed -i \
         -e 's|${B}/bin/vtkH5detect|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/vtkH5detect|g' \
         -e 's|${B}/bin/vtkH5make_libsettings|${@qemu_run_binary_builddir(d, '${STAGING_DIR_TARGET}')} ${B}/bin/vtkH5make_libsettings|g' \
