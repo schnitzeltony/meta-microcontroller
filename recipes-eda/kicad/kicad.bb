@@ -58,7 +58,7 @@ FILES_${PN} += " \
     ${PYTHON_SITEPACKAGES_DIR} \
 "
 
-RDEPENDS_${PV} += " \
+RDEPENDS_${PN} += " \
     ${PN}-symbols \
     ${PN}-footprints \
     ${PN}-packages3d \
