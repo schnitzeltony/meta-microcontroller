@@ -36,6 +36,7 @@ S = "${WORKDIR}/gdb-${PV}"
 EXTRA_OECONF = " \
     --target=avr \
     --program-prefix=avr- \
+    --disable-werror \
     --with-system-zlib \
 "
 
@@ -46,6 +47,9 @@ PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,python
 PACKAGECONFIG[babeltrace] = "--with-babeltrace,--without-babeltrace,babeltrace"
 # ncurses is already a hard DEPENDS, but would be added here if it weren't
 PACKAGECONFIG[tui] = "--enable-tui,--disable-tui"
+
+# see avr-binutils for further details
+lcl_maybe_fortify = ""
 
 do_configure () {
 	# override this function to avoid the autoconf/automake/aclocal/autoheader
