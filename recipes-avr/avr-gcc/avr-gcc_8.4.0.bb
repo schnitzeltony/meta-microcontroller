@@ -44,7 +44,13 @@ EXTRA_OECONF = " \
     --disable-libmudflap \
     --with-system-zlib \
     --with-build-sysroot=${STAGING_DIR_TARGET} \
+    --disable-werror \
 "
+
+# see avr-binutils for further details
+lcl_maybe_fortify = ""
+# wow same as gcc in oe-core (checked dunfell)
+SECURITY_STRINGFORMAT = ""
 
 EXTRA_OECONF_append_class-target = " \
     --with-gnu-as \
