@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/AGPL-3.0;md5=73f1eb20517c55bf94
 
 DEPENDS = "gettext-native"
 
-inherit cmake allarch
+inherit cmake-allarch
 
 SRC_URI = "https://gitlab.com/kicad/code/kicad-i18n/-/archive/${PV}/${BP}.tar.gz"
 SRC_URI[sha256sum] = "be72fc4488d8b614b2b7997669641d0adeabe689083253b5c6bfb99853171542"
