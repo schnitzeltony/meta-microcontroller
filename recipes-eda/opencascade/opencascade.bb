@@ -23,8 +23,8 @@ SRC_URI = " \
     git://github.com/Open-Cascade-SAS/OCCT.git \
     file://0001-Steal-some-fixes.patch \
 "
-SRCREV = "d7bc5c833ec064bd103ebbff2882146ad5a7e7de"
-PV = "7.4.0+git${SRCPV}"
+SRCREV = "628c0211d53c7fe1036a85e7a7b2b067c9c50f7a"
+PV = "7.5.0"
 S = "${WORKDIR}/git"
 
 VTKVER = "9.0"
