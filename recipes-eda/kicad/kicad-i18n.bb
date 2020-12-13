@@ -7,9 +7,10 @@ DEPENDS = "gettext-native"
 
 inherit cmake-allarch
 
-SRC_URI = "https://gitlab.com/kicad/code/kicad-i18n/-/archive/${PV}/${BP}.tar.gz"
-SRC_URI[sha256sum] = "be72fc4488d8b614b2b7997669641d0adeabe689083253b5c6bfb99853171542"
-PV = "5.1.7"
+SRC_URI = "git://gitlab.com/kicad/code/kicad-i18n.git;branch=5.1"
+SRCREV = "78adcd19e7ed53f4889d6db65a33dd8ec2d323e9"
+PV = "5.1.8"
+S = "${WORKDIR}/git"
 
 # should send a patch to oe-core/package.bbclass not to hard-code locale dir...
 python package_do_split_locales() {
