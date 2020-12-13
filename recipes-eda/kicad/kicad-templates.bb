@@ -6,7 +6,7 @@ inherit cmake-allarch
 
 SRC_URI = "git://gitlab.com/kicad/libraries/${BPN}.git;branch=v5"
 SRCREV = "1ccbaf3704e8ff4030d0915f71e051af621ef7d7"
-PV = "5.1.7"
+PV = "5.1.8"
 S = "${WORKDIR}/git"
 
 FILES_${PN} = " \
