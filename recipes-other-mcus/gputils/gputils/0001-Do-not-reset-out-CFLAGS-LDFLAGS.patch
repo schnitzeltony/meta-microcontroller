@@ -1,0 +1,40 @@
+From 560afee2a85258e95b0868b4f7715518d97e0ad0 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 31 Dec 2020 15:31:07 +0100
+Subject: [PATCH] Do not reset out CFLAGS/LDFLAGS
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Pending
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ configure.ac | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 43741dd..c048c97 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -214,7 +214,7 @@ AC_DEFINE_UNQUOTED(GPUTILS_VERSION_STR, "$PACKAGE_VERSION", [gputils version str
+ 
+ AM_GPUTILS_SVN_VERSION="\$(shell \$(top_srcdir)/get_cl_revision.sh \$(top_srcdir)/ChangeLog)"
+ AM_PACKAGE_SVN_VERSION=`./get_cl_revision.sh ChangeLog`
+-CFLAGS="-DGPUTILS_SVN_VERSION=\$(AM_GPUTILS_SVN_VERSION)"
++CFLAGS="$CFLAGS -DGPUTILS_SVN_VERSION=\$(AM_GPUTILS_SVN_VERSION)"
+ 
+ # Host filesystem options.
+ case "${host}" in
+@@ -239,8 +239,6 @@ if test x$enable_gputils_path = xyes; then
+     [Define if you want to add default search paths.])
+ fi
+ 
+-LDFLAGS=
+-
+ # Substitute configuration variables.
+ AC_SUBST(ENABLE_HTML_DOC)
+ AC_SUBST(DEFAULT_MPLABX_PATH)
+-- 
+2.26.2
+
