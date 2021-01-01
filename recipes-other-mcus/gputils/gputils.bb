@@ -16,4 +16,15 @@ DEPENDS = " \
 
 inherit autotools
 
+do_install_append_class-native() {
+    create_wrapper ${D}/${bindir}/gpasm \
+        GPUTILS_HEADER_PATH=${STAGING_DATADIR_NATIVE}/gputils/header \
+        GPUTILS_LIB_PATH=${STAGING_DATADIR_NATIVE}/gputils/lib \
+        GPUTILS_LKR_PATH=${STAGING_DATADIR_NATIVE}/gputils/lkr
+    create_wrapper ${D}/${bindir}/gplink \
+        GPUTILS_HEADER_PATH=${STAGING_DATADIR_NATIVE}/gputils/header \
+        GPUTILS_LIB_PATH=${STAGING_DATADIR_NATIVE}/gputils/lib \
+        GPUTILS_LKR_PATH=${STAGING_DATADIR_NATIVE}/gputils/lkr
+}
+
 BBCLASSEXTEND = "native"
