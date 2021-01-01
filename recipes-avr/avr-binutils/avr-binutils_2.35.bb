@@ -40,7 +40,7 @@ BBCLASSEXTEND = "native"
 # | ../../binutils-2.34/libiberty/fibheap.c:38:24: error: 'LONG_MIN' undeclared (first use in this function)
 # |    38 | #define FIBHEAPKEY_MIN LONG_MIN
 #
-# So as long as we don't know whwer optimization get lost disable '-D_FORTIFY_SOURCE=2' set in
+# So as long as we don't know where optimization gets lost disable '-D_FORTIFY_SOURCE=2' set in
 # conf/distro/include/security_flags.inc:
 lcl_maybe_fortify = ""
 
@@ -50,16 +50,8 @@ EXTRA_OECONF = " \
 "
 
 do_configure () {
-	(cd ${S} && gnu-configize)
-
-	oe_runconf
-    #
-    # must prime config.cache to ensure the build of libiberty
-    #
-	mkdir -p ${B}/build-${BUILD_SYS}
-	for i in ${CONFIG_SITE}; do
-		cat $i >> ${B}/build-${BUILD_SYS}/config.cache || true
-	done
+    (cd ${S} && gnu-configize)
+    oe_runconf
 }
 
 do_install_append() {
@@ -70,5 +62,3 @@ do_install_append() {
 
 FILES_${PN} += "${prefix}/avr"
 SYSROOT_DIRS_append_class-native = " ${prefix}/avr"
-
-
