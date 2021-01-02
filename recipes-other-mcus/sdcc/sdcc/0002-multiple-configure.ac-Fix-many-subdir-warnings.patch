@@ -1,0 +1,50 @@
+From 630e97585a9e5747f2eed5158ec87c039b6ec523 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Fri, 1 Jan 2021 19:23:08 +0100
+Subject: [PATCH] multiple configure.ac: Fix many subdir warnings
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Fix floods of:
+| libc/Makefile.am:5: warning: source file 'ctype/iscntrl.c' is in a subdirectory,
+| libc/Makefile.am:5: but option 'subdir-objects' is disabled
+
+Upstream-Status: Pending
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ device/lib/pic16/configure.ac          | 3 +--
+ device/non-free/lib/pic16/configure.ac | 2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/device/lib/pic16/configure.ac b/device/lib/pic16/configure.ac
+index 3966c11..86d5f57 100644
+--- a/device/lib/pic16/configure.ac
++++ b/device/lib/pic16/configure.ac
+@@ -3,8 +3,7 @@
+ 
+ AC_PREREQ(2.60)
+ AC_INIT([pic16lib], [0.3], [tecodev AT users sourceforge net])
+-#AM_INIT_AUTOMAKE([foreign subdir-objects])
+-AM_INIT_AUTOMAKE([foreign])
++AM_INIT_AUTOMAKE([foreign subdir-objects])
+ AC_CONFIG_SRCDIR([debug/gstack/gstack.c])
+ AC_CONFIG_HEADER([config.h])
+ 
+diff --git a/device/non-free/lib/pic16/configure.ac b/device/non-free/lib/pic16/configure.ac
+index b645e2f..063d3ce 100644
+--- a/device/non-free/lib/pic16/configure.ac
++++ b/device/non-free/lib/pic16/configure.ac
+@@ -3,7 +3,7 @@
+ 
+ AC_PREREQ(2.61)
+ AC_INIT([pic16lib], [0.3], [tecodev AT users sourceforge net])
+-AM_INIT_AUTOMAKE([foreign])
++AM_INIT_AUTOMAKE([foreign subdir-objects])
+ AC_CONFIG_SRCDIR([libdev/pic18f13k50.c])
+ AC_CONFIG_HEADER([config.h])
+ 
+-- 
+2.26.2
+

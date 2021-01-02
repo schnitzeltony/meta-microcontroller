@@ -1,0 +1,32 @@
+From 7c5ad4fcb043a614a4137007f5fe5c2b90800307 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 31 Dec 2020 12:11:45 +0100
+Subject: [PATCH] Do not check matching autoconf version
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The seem to use it for creating tarballs easily - for us it is a stopper
+
+Upstream-Status: Inappropriate [configuration]
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ support/sdbinutils/config/override.m4 | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/support/sdbinutils/config/override.m4 b/support/sdbinutils/config/override.m4
+index b5ce654..3683e06 100644
+--- a/support/sdbinutils/config/override.m4
++++ b/support/sdbinutils/config/override.m4
+@@ -44,7 +44,6 @@ AC_DEFUN([_GCC_AUTOCONF_VERSION_CHECK],
+   [m4_fatal([Please use exactly Autoconf ]_GCC_AUTOCONF_VERSION[ instead of ]m4_defn([m4_PACKAGE_VERSION])[.])])
+ ])
+ m4_define([AC_INIT], m4_defn([AC_INIT])[
+-_GCC_AUTOCONF_VERSION_CHECK
+ ])
+ 
+ 
+-- 
+2.26.2
+

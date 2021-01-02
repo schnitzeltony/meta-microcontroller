@@ -1,0 +1,862 @@
+From 6d7e8c710d5e631af21482e11ca5744574cfe445 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Sat, 2 Jan 2021 20:23:56 +0100
+Subject: [PATCH] Use native sdcc tools
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Since some break silently it is a good idea to open log.do_compile and search
+for 'cannot execute'.
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ device/lib/Makefile.in                       | 40 ++++++++++----------
+ device/lib/ds390/Makefile.in                 |  8 ++--
+ device/lib/ds400/Makefile.in                 |  8 ++--
+ device/lib/ez80_z80/Makefile.in              | 10 ++---
+ device/lib/gbz80/Makefile.in                 | 10 ++---
+ device/lib/hc08/Makefile.in                  | 10 ++---
+ device/lib/mcs51/Makefile.in                 | 10 ++---
+ device/lib/pdk13/Makefile.in                 | 10 ++---
+ device/lib/pdk14/Makefile.in                 | 10 ++---
+ device/lib/pdk15-stack-auto/Makefile.in      | 10 ++---
+ device/lib/pdk15/Makefile.in                 | 10 ++---
+ device/lib/pic14/configure.ac                |  2 +-
+ device/lib/pic16/configure.ac                |  2 +-
+ device/lib/r2k/Makefile.in                   | 10 ++---
+ device/lib/r3ka/Makefile.in                  | 10 ++---
+ device/lib/s08/Makefile.in                   | 10 ++---
+ device/lib/stm8-large/Makefile.in            | 10 ++---
+ device/lib/stm8/Makefile.in                  | 10 ++---
+ device/lib/tlcs90/Makefile.in                | 10 ++---
+ device/lib/z180/Makefile.in                  | 10 ++---
+ device/lib/z80/Makefile.in                   | 10 ++---
+ device/non-free/lib/Makefile.in              | 24 ++++++------
+ device/non-free/lib/pic14/Makefile.common.in |  4 +-
+ device/non-free/lib/pic14/libdev/Makefile.in |  2 +-
+ device/non-free/lib/pic16/configure.ac       |  2 +-
+ 25 files changed, 126 insertions(+), 126 deletions(-)
+
+diff --git a/device/lib/Makefile.in b/device/lib/Makefile.in
+index c528d1c..7b545a7 100644
+--- a/device/lib/Makefile.in
++++ b/device/lib/Makefile.in
+@@ -28,9 +28,9 @@ ifndef PORTINCDIR
+ PORTINCDIR      = $(INCDIR)/mcs51
+ endif
+ 
+-CC              = $(top_builddir)/bin/sdcc
++CC              = sdcc
+ # The predefined macros reflect what SDCC predefines (so we don't get any errors when generating Makefile.dep).
+-CPP             = $(top_builddir)/bin/sdcpp -D__STDC_ISO_10646__=201409L -D__STDC_UTF_16__=1 -D__STDC_UTF_32__=1
++CPP             = sdcpp -D__STDC_ISO_10646__=201409L -D__STDC_UTF_16__=1 -D__STDC_UTF_32__=1
+ 
+ prefix          = @prefix@
+ exec_prefix     = @exec_prefix@
+@@ -323,13 +323,13 @@ objects-xa51:
+ 
+ $(PORTDIR)/lib$(PORT).lib: $(XA51OBJECTS)
+ ifeq ($(LIB_TYPE), SDCCLIB)
+-	$(top_builddir)/bin/sdcclib -a $(PORTDIR)/lib$(PORT).lib $(XA51OBJECTS)
++	sdcclib -a $(PORTDIR)/lib$(PORT).lib $(XA51OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $(PORTDIR)/lib$(PORT).lib $(XA51OBJECTS)
++	sdar -rcSD $(PORTDIR)/lib$(PORT).lib $(XA51OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $(PORTDIR)/lib$(PORT).lib $(XA51OBJECTS)
++	sdar -rcD $(PORTDIR)/lib$(PORT).lib $(XA51OBJECTS)
+     else
+ 	rm -f $(PORTDIR)/lib$(PORT).lib
+ 	for i in $(notdir $(basename $(XA51OBJECTS))); do echo $$i >> $(PORTDIR)/lib$(PORT).lib; done
+@@ -496,55 +496,55 @@ port-specific-objects-pic14:
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 
+ $(PORTDIR)/libfloat.lib: $(OBJECTS_FLOAT)
+-	$(top_builddir)/bin/sdcclib -a $(PORTDIR)/libfloat.lib $(OBJECTS_FLOAT)
++	sdcclib -a $(PORTDIR)/libfloat.lib $(OBJECTS_FLOAT)
+ 
+ $(PORTDIR)/libint.lib: $(OBJECTS_INT)
+-	$(top_builddir)/bin/sdcclib -a $(PORTDIR)/libint.lib $(OBJECTS_INT)
++	sdcclib -a $(PORTDIR)/libint.lib $(OBJECTS_INT)
+ 
+ $(PORTDIR)/liblong.lib: $(OBJECTS_LONG)
+-	$(top_builddir)/bin/sdcclib -a $(PORTDIR)/liblong.lib $(OBJECTS_LONG)
++	sdcclib -a $(PORTDIR)/liblong.lib $(OBJECTS_LONG)
+ 
+ $(PORTDIR)/liblonglong.lib: $(OBJECTS_LONGLONG)
+-	$(top_builddir)/bin/sdcclib -a $(PORTDIR)/liblonglong.lib $(OBJECTS_LONGLONG)
++	sdcclib -a $(PORTDIR)/liblonglong.lib $(OBJECTS_LONGLONG)
+ 
+ $(PORTDIR)/libsdcc.lib: $(OBJECTS_SDCC)
+-	$(top_builddir)/bin/sdcclib -a $(PORTDIR)/libsdcc.lib $(OBJECTS_SDCC)
++	sdcclib -a $(PORTDIR)/libsdcc.lib $(OBJECTS_SDCC)
+ 
+ else
+   ifeq ($(LIB_TYPE), AR)
+ 
+ $(PORTDIR)/libfloat.lib: $(OBJECTS_FLOAT)
+-	$(top_builddir)/bin/sdar -rcSD $(PORTDIR)/libfloat.lib $(OBJECTS_FLOAT)
++	sdar -rcSD $(PORTDIR)/libfloat.lib $(OBJECTS_FLOAT)
+ 
+ $(PORTDIR)/libint.lib: $(OBJECTS_INT)
+-	$(top_builddir)/bin/sdar -rcSD $(PORTDIR)/libint.lib $(OBJECTS_INT)
++	sdar -rcSD $(PORTDIR)/libint.lib $(OBJECTS_INT)
+ 
+ $(PORTDIR)/liblong.lib: $(OBJECTS_LONG)
+-	$(top_builddir)/bin/sdar -rcSD $(PORTDIR)/liblong.lib $(OBJECTS_LONG)
++	sdar -rcSD $(PORTDIR)/liblong.lib $(OBJECTS_LONG)
+ 
+ $(PORTDIR)/liblonglong.lib: $(OBJECTS_LONGLONG)
+-	$(top_builddir)/bin/sdar -rcSD $(PORTDIR)/liblonglong.lib $(OBJECTS_LONGLONG)
++	sdar -rcSD $(PORTDIR)/liblonglong.lib $(OBJECTS_LONGLONG)
+ 
+ $(PORTDIR)/libsdcc.lib: $(OBJECTS_SDCC)
+-	$(top_builddir)/bin/sdar -rcSD $(PORTDIR)/libsdcc.lib $(OBJECTS_SDCC)
++	sdar -rcSD $(PORTDIR)/libsdcc.lib $(OBJECTS_SDCC)
+ 
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+ 
+ $(PORTDIR)/libfloat.lib: $(OBJECTS_FLOAT)
+-	$(top_builddir)/bin/sdar -rcD $(PORTDIR)/libfloat.lib $(OBJECTS_FLOAT)
++	sdar -rcD $(PORTDIR)/libfloat.lib $(OBJECTS_FLOAT)
+ 
+ $(PORTDIR)/libint.lib: $(OBJECTS_INT)
+-	$(top_builddir)/bin/sdar -rcD $(PORTDIR)/libint.lib $(OBJECTS_INT)
++	sdar -rcD $(PORTDIR)/libint.lib $(OBJECTS_INT)
+ 
+ $(PORTDIR)/liblong.lib: $(OBJECTS_LONG)
+-	$(top_builddir)/bin/sdar -rcD $(PORTDIR)/liblong.lib $(OBJECTS_LONG)
++	sdar -rcD $(PORTDIR)/liblong.lib $(OBJECTS_LONG)
+ 
+ $(PORTDIR)/liblonglong.lib: $(OBJECTS_LONGLONG)
+-	$(top_builddir)/bin/sdar -rcD $(PORTDIR)/liblonglong.lib $(OBJECTS_LONGLONG)
++	sdar -rcD $(PORTDIR)/liblonglong.lib $(OBJECTS_LONGLONG)
+ 
+ $(PORTDIR)/libsdcc.lib: $(OBJECTS_SDCC)
+-	$(top_builddir)/bin/sdar -rcD $(PORTDIR)/libsdcc.lib $(OBJECTS_SDCC)
++	sdar -rcD $(PORTDIR)/libsdcc.lib $(OBJECTS_SDCC)
+ 
+     else
+ 
+diff --git a/device/lib/ds390/Makefile.in b/device/lib/ds390/Makefile.in
+index e2656e4..1d74c63 100644
+--- a/device/lib/ds390/Makefile.in
++++ b/device/lib/ds390/Makefile.in
+@@ -6,7 +6,7 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-CC = $(top_builddir)/bin/sdcc
++CC = sdcc
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/ds390
+@@ -32,13 +32,13 @@ distclean: clean
+ $(PORTDIR)/libds390.lib: $(OBJECTS)
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJECTS)
++	sdcclib -a $@ $(OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJECTS)
++	sdar -rcSD $@ $(OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJECTS)
++	sdar -rcD $@ $(OBJECTS)
+     else
+ 	rm -f $@;
+ 	for libfile in $(basename $(OBJECTS)); do echo $$libfile >>$@; done
+diff --git a/device/lib/ds400/Makefile.in b/device/lib/ds400/Makefile.in
+index f1c9324..7b4b2bf 100644
+--- a/device/lib/ds400/Makefile.in
++++ b/device/lib/ds400/Makefile.in
+@@ -6,7 +6,7 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-CC = $(top_builddir)/bin/sdcc
++CC = sdcc
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/ds400
+@@ -32,13 +32,13 @@ distclean: clean
+ $(PORTDIR)/libds400.lib: $(OBJECTS)
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJECTS)
++	sdcclib -a $@ $(OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJECTS)
++	sdar -rcSD $@ $(OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJECTS)
++	sdar -rcD $@ $(OBJECTS)
+     else
+ 	rm -f $@;
+ 	for libfile in $(basename $(OBJECTS)); do echo $$libfile >>$@; done
+diff --git a/device/lib/ez80_z80/Makefile.in b/device/lib/ez80_z80/Makefile.in
+index 67e78e3..a62bf4f 100644
+--- a/device/lib/ez80_z80/Makefile.in
++++ b/device/lib/ez80_z80/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mez80_z80
+-SAS = $(top_builddir)/bin/sdasz80
++SCC = sdcc -mez80_z80
++SAS = sdasz80
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/ez80_z80
+@@ -61,13 +61,13 @@ $(PORTDIR)/crt0.rel: crt0.rel
+ $(PORTDIR)/$(LIB): $(OBJ) $(Z8OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
++	sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
+     else
+ 	rm -f $@; \
+ 	for i in $(basename $(OBJ) $(Z8OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/gbz80/Makefile.in b/device/lib/gbz80/Makefile.in
+index ad1b235..46088cf 100644
+--- a/device/lib/gbz80/Makefile.in
++++ b/device/lib/gbz80/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mgbz80
+-SAS = $(top_builddir)/bin/sdasgb
++SCC = sdcc -mgbz80
++SAS = sdasgb
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/gbz80
+@@ -64,13 +64,13 @@ $(PORTDIR)/crt0.rel: crt0.rel
+ $(PORTDIR)/$(LIB): $(OBJ) $(Z8OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
++	sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
+     else
+ 	rm -f $@; \
+ 	for i in $(basename $(OBJ) $(Z8OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/hc08/Makefile.in b/device/lib/hc08/Makefile.in
+index be934c0..3974640 100644
+--- a/device/lib/hc08/Makefile.in
++++ b/device/lib/hc08/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mhc08
+-SAS = $(top_builddir)/bin/sdas6808
++SCC = sdcc -mhc08
++SAS = sdas6808
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/hc08
+@@ -69,13 +69,13 @@ all: $(PORTDIR)/$(LIB)
+ $(PORTDIR)/$(LIB): $(OBJ) $(HC08OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(HC08OBJECTS)
++	sdcclib -a $@ $(OBJ) $(HC08OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(HC08OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(HC08OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(HC08OBJECTS)
++	sdar -rcD $@ $(OBJ) $(HC08OBJECTS)
+     else
+ 	rm -f $@
+ 	for i in $(basename $(OBJ) $(HC08OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/mcs51/Makefile.in b/device/lib/mcs51/Makefile.in
+index 99101ae..5b454c1 100644
+--- a/device/lib/mcs51/Makefile.in
++++ b/device/lib/mcs51/Makefile.in
+@@ -7,8 +7,8 @@ top_srcdir   = @top_srcdir@
+ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+-SAS = $(top_builddir)/bin/sdas8051
+-SCC = $(top_builddir)/bin/sdcc
++SAS = sdas8051
++SCC = sdcc
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/$(PORT)
+@@ -31,13 +31,13 @@ all: $(PORTDIR)/$(LIB)
+ $(PORTDIR)/$(LIB): $(OBJ) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ)
++	sdcclib -a $@ $(OBJ)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ)
++	sdar -rcSD $@ $(OBJ)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ)
++	sdar -rcD $@ $(OBJ)
+     else
+ 	rm -f $@
+ 	for i in $(basename $(OBJ)); do echo $$i >>$@; done
+diff --git a/device/lib/pdk13/Makefile.in b/device/lib/pdk13/Makefile.in
+index ce9e003..c9b3b3d 100644
+--- a/device/lib/pdk13/Makefile.in
++++ b/device/lib/pdk13/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mpdk13
+-SAS = $(top_builddir)/bin/sdaspdk13
++SCC = sdcc -mpdk13
++SAS = sdaspdk13
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/pdk13
+@@ -73,13 +73,13 @@ all: $(PORTDIR)/$(LIB)
+ $(PORTDIR)/$(LIB): $(OBJ) $(PDK13OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(PDK13OBJECTS)
++	sdcclib -a $@ $(OBJ) $(PDK13OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(PDK13OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(PDK13OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(PDK13OBJECTS)
++	sdar -rcD $@ $(OBJ) $(PDK13OBJECTS)
+     else
+ 	rm -f $@
+ 	for i in $(basename $(OBJ) $(PDK13OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/pdk14/Makefile.in b/device/lib/pdk14/Makefile.in
+index e6bb970..cdb11dc 100644
+--- a/device/lib/pdk14/Makefile.in
++++ b/device/lib/pdk14/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mpdk14
+-SAS = $(top_builddir)/bin/sdaspdk14
++SCC = sdcc -mpdk14
++SAS = sdaspdk14
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/pdk14
+@@ -73,13 +73,13 @@ all: $(PORTDIR)/$(LIB)
+ $(PORTDIR)/$(LIB): $(OBJ) $(PDK14OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(PDK14OBJECTS)
++	sdcclib -a $@ $(OBJ) $(PDK14OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(PDK14OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(PDK14OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(PDK14OBJECTS)
++	sdar -rcD $@ $(OBJ) $(PDK14OBJECTS)
+     else
+ 	rm -f $@
+ 	for i in $(basename $(OBJ) $(PDK14OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/pdk15-stack-auto/Makefile.in b/device/lib/pdk15-stack-auto/Makefile.in
+index 46e8ea8..ac7119f 100644
+--- a/device/lib/pdk15-stack-auto/Makefile.in
++++ b/device/lib/pdk15-stack-auto/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mpdk15 --stack-auto
+-SAS = $(top_builddir)/bin/sdaspdk15
++SCC = sdcc -mpdk15 --stack-auto
++SAS = sdaspdk15
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/pdk15-stack-auto
+@@ -73,13 +73,13 @@ all: $(PORTDIR)/$(LIB)
+ $(PORTDIR)/$(LIB): $(OBJ) $(PDK15OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(PDK15OBJECTS)
++	sdcclib -a $@ $(OBJ) $(PDK15OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(PDK15OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(PDK15OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(PDK15OBJECTS)
++	sdar -rcD $@ $(OBJ) $(PDK15OBJECTS)
+     else
+ 	rm -f $@
+ 	for i in $(basename $(OBJ) $(PDK15OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/pdk15/Makefile.in b/device/lib/pdk15/Makefile.in
+index bc4dcef..02496b5 100644
+--- a/device/lib/pdk15/Makefile.in
++++ b/device/lib/pdk15/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mpdk15
+-SAS = $(top_builddir)/bin/sdaspdk15
++SCC = sdcc -mpdk15
++SAS = sdaspdk15
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/pdk15
+@@ -73,13 +73,13 @@ all: $(PORTDIR)/$(LIB)
+ $(PORTDIR)/$(LIB): $(OBJ) $(PDK15OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(PDK15OBJECTS)
++	sdcclib -a $@ $(OBJ) $(PDK15OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(PDK15OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(PDK15OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(PDK15OBJECTS)
++	sdar -rcD $@ $(OBJ) $(PDK15OBJECTS)
+     else
+ 	rm -f $@
+ 	for i in $(basename $(OBJ) $(PDK15OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/pic14/configure.ac b/device/lib/pic14/configure.ac
+index 22dadab..1e29e4e 100644
+--- a/device/lib/pic14/configure.ac
++++ b/device/lib/pic14/configure.ac
+@@ -50,7 +50,7 @@ AC_SUBST(ARCH,  [${ARCH:-16f877}])
+ AC_SUBST(EARCH, [${EARCH:-16f1788}])
+ 
+ # We cannot use AC_PROG_CC(sdcc) as sdcc might not be built at configure-time...
+-AC_SUBST(CC, [\'$abs_top_builddir/../../../bin/sdcc\'])
++AC_SUBST(CC, [\'sdcc\'])
+ AC_PATH_PROG(CCAS, gpasm, :)
+ AC_PATH_PROG(LD, gplink, :)
+ AC_PATH_PROG(AR, gplib, :)
+diff --git a/device/lib/pic16/configure.ac b/device/lib/pic16/configure.ac
+index 86d5f57..2ed9292 100644
+--- a/device/lib/pic16/configure.ac
++++ b/device/lib/pic16/configure.ac
+@@ -39,7 +39,7 @@ AC_ARG_ENABLE(
+ AC_SUBST(ARCH, [${ARCH:-18f452}])
+ 
+ # We cannot use AC_PROG_CC(sdcc) as sdcc might not be built at configure-time...
+-AC_SUBST(CC, [\'$abs_top_builddir/../../../bin/sdcc\'])
++AC_SUBST(CC, [\'sdcc\'])
+ AC_PATH_PROG(CCAS, gpasm, :)
+ AC_PATH_PROG(LD, gplink, :)
+ AC_PATH_PROG(AR, gplib, :)
+diff --git a/device/lib/r2k/Makefile.in b/device/lib/r2k/Makefile.in
+index 958697d..6a428c7 100644
+--- a/device/lib/r2k/Makefile.in
++++ b/device/lib/r2k/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mr2k
+-SAS = $(top_builddir)/bin/sdasrab
++SCC = sdcc -mr2k
++SAS = sdasrab
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/r2k
+@@ -62,13 +62,13 @@ $(PORTDIR)/crt0.rel: crt0.rel
+ $(PORTDIR)/$(LIB): $(OBJ) $(Z8OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
++	sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
+     else
+ 	rm -f $@; \
+ 	for i in $(basename $(OBJ) $(Z8OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/r3ka/Makefile.in b/device/lib/r3ka/Makefile.in
+index 4d55793..e0ee5cc 100644
+--- a/device/lib/r3ka/Makefile.in
++++ b/device/lib/r3ka/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mr3ka
+-SAS = $(top_builddir)/bin/sdasrab
++SCC = sdcc -mr3ka
++SAS = sdasrab
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/r3ka
+@@ -62,13 +62,13 @@ $(PORTDIR)/crt0.rel: crt0.rel
+ $(PORTDIR)/$(LIB): $(OBJ) $(Z8OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
++	sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
+     else
+ 	rm -f $@; \
+ 	for i in $(basename $(OBJ) $(Z8OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/s08/Makefile.in b/device/lib/s08/Makefile.in
+index a74e174..6ae061a 100644
+--- a/device/lib/s08/Makefile.in
++++ b/device/lib/s08/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -ms08
+-SAS = $(top_builddir)/bin/sdas6808
++SCC = sdcc -ms08
++SAS = sdas6808
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/s08
+@@ -69,13 +69,13 @@ all: $(PORTDIR)/$(LIB)
+ $(PORTDIR)/$(LIB): $(OBJ) $(HC08OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(HC08OBJECTS)
++	sdcclib -a $@ $(OBJ) $(HC08OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(HC08OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(HC08OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(HC08OBJECTS)
++	sdar -rcD $@ $(OBJ) $(HC08OBJECTS)
+     else
+ 	rm -f $@
+ 	for i in $(basename $(OBJ) $(HC08OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/stm8-large/Makefile.in b/device/lib/stm8-large/Makefile.in
+index 7699d37..c6089a9 100644
+--- a/device/lib/stm8-large/Makefile.in
++++ b/device/lib/stm8-large/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mstm8 --model-large
+-SAS = $(top_builddir)/bin/sdasstm8
++SCC = sdcc -mstm8 --model-large
++SAS = sdasstm8
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/stm8-large
+@@ -67,13 +67,13 @@ all: $(PORTDIR)/$(LIB)
+ $(PORTDIR)/$(LIB): $(OBJ) $(STM8OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(STM8OBJECTS)
++	sdcclib -a $@ $(OBJ) $(STM8OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(STM8OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(STM8OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(STM8OBJECTS)
++	sdar -rcD $@ $(OBJ) $(STM8OBJECTS)
+     else
+ 	rm -f $@
+ 	for i in $(basename $(OBJ) $(STM8OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/stm8/Makefile.in b/device/lib/stm8/Makefile.in
+index 792b927..d8f2f10 100644
+--- a/device/lib/stm8/Makefile.in
++++ b/device/lib/stm8/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mstm8
+-SAS = $(top_builddir)/bin/sdasstm8
++SCC = sdcc -mstm8
++SAS = sdasstm8
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/stm8
+@@ -57,13 +57,13 @@ all: $(PORTDIR)/$(LIB)
+ $(PORTDIR)/$(LIB): $(OBJ) $(STM8OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(STM8OBJECTS)
++	sdcclib -a $@ $(OBJ) $(STM8OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(STM8OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(STM8OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(STM8OBJECTS)
++	sdar -rcD $@ $(OBJ) $(STM8OBJECTS)
+     else
+ 	rm -f $@
+ 	for i in $(basename $(OBJ) $(STM8OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/tlcs90/Makefile.in b/device/lib/tlcs90/Makefile.in
+index 885bb25..892bddc 100644
+--- a/device/lib/tlcs90/Makefile.in
++++ b/device/lib/tlcs90/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mtlcs90
+-SAS = $(top_builddir)/bin/sdastlcs90
++SCC = sdcc -mtlcs90
++SAS = sdastlcs90
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/tlcs90
+@@ -62,13 +62,13 @@ $(PORTDIR)/crt0.rel: crt0.rel
+ $(PORTDIR)/$(LIB): $(OBJ) $(Z8OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
++	sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
+     else
+ 	rm -f $@; \
+ 	for i in $(basename $(OBJ) $(Z8OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/z180/Makefile.in b/device/lib/z180/Makefile.in
+index f062831..5ba7173 100644
+--- a/device/lib/z180/Makefile.in
++++ b/device/lib/z180/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mz180
+-SAS = $(top_builddir)/bin/sdasz80
++SCC = sdcc -mz180
++SAS = sdasz80
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/z180
+@@ -61,13 +61,13 @@ $(PORTDIR)/crt0.rel: crt0.rel
+ $(PORTDIR)/$(LIB): $(OBJ) $(Z8OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
++	sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
+     else
+ 	rm -f $@; \
+ 	for i in $(basename $(OBJ) $(Z8OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/lib/z80/Makefile.in b/device/lib/z80/Makefile.in
+index e14d779..21a6080 100644
+--- a/device/lib/z80/Makefile.in
++++ b/device/lib/z80/Makefile.in
+@@ -6,8 +6,8 @@ top_builddir = @top_builddir@
+ 
+ LIB_TYPE     = @LIB_TYPE@
+ 
+-SCC = $(top_builddir)/bin/sdcc -mz80
+-SAS = $(top_builddir)/bin/sdasz80
++SCC = sdcc -mz80
++SAS = sdasz80
+ 
+ # override PORTDIR defined by super (parent) makefile
+ override PORTDIR = ../build/z80
+@@ -61,13 +61,13 @@ $(PORTDIR)/crt0.rel: crt0.rel
+ $(PORTDIR)/$(LIB): $(OBJ) $(Z8OBJECTS) Makefile
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 	rm -f $@; \
+-	$(top_builddir)/bin/sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
++	sdcclib -a $@ $(OBJ) $(Z8OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+-	$(top_builddir)/bin/sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcSD $@ $(OBJ) $(Z8OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+-	$(top_builddir)/bin/sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
++	sdar -rcD $@ $(OBJ) $(Z8OBJECTS)
+     else
+ 	rm -f $@; \
+ 	for i in $(basename $(OBJ) $(Z8OBJECTS)); do echo $$i >>$@; done
+diff --git a/device/non-free/lib/Makefile.in b/device/non-free/lib/Makefile.in
+index 96378f6..b723b03 100644
+--- a/device/non-free/lib/Makefile.in
++++ b/device/non-free/lib/Makefile.in
+@@ -29,8 +29,8 @@ ifndef PORTINCDIR
+ PORTINCDIR      = $(INCDIR)/mcs51
+ endif
+ 
+-CC              = $(top_builddir)/bin/sdcc
+-CPP             = $(top_builddir)/bin/sdcpp
++CC              = sdcc
++CPP             = sdcpp
+ 
+ prefix          = @prefix@
+ exec_prefix     = @exec_prefix@
+@@ -179,14 +179,14 @@ objects-xa51:
+ 
+ $(PORTDIR)/lib$(PORT).lib: $(XA51OBJECTS)
+ ifeq ($(LIB_TYPE), SDCCLIB)
+-	../../bin/sdcclib -a $(PORTDIR)/lib$(PORT).lib $(XA51OBJECTS)
++	sdcclib -a $(PORTDIR)/lib$(PORT).lib $(XA51OBJECTS)
+ else
+   ifeq ($(LIB_TYPE), AR)
+ 	$(AR_S) -q $(PORTDIR)/lib$(PORT).lib $(XA51OBJECTS)
+   else
+     ifeq ($(LIB_TYPE), RANLIB)
+ 	$(AR_S) -q $(PORTDIR)/lib$(PORT).lib $(XA51OBJECTS)
+-	$(top_builddir)/bin/sdranlib $(PORTDIR)/lib$(PORT).lib
++	sdranlib $(PORTDIR)/lib$(PORT).lib
+     else
+ 	rm -f $(PORTDIR)/lib$(PORT).lib
+ 	for i in $(notdir $(basename $(XA51OBJECTS))); do echo $$i >> $(PORTDIR)/lib$(PORT).lib; done
+@@ -271,16 +271,16 @@ port-specific-objects-pic14:
+ ifeq ($(LIB_TYPE), SDCCLIB)
+ 
+ $(PORTDIR)/libfloat.lib: $(OBJECTS_FLOAT)
+-	../../bin/sdcclib -a $(PORTDIR)/libfloat.lib $(OBJECTS_FLOAT)
++	sdcclib -a $(PORTDIR)/libfloat.lib $(OBJECTS_FLOAT)
+ 
+ $(PORTDIR)/libint.lib: $(OBJECTS_INT)
+-	../../bin/sdcclib -a $(PORTDIR)/libint.lib $(OBJECTS_INT)
++	sdcclib -a $(PORTDIR)/libint.lib $(OBJECTS_INT)
+ 
+ $(PORTDIR)/liblong.lib: $(OBJECTS_LONG)
+-	../../bin/sdcclib -a $(PORTDIR)/liblong.lib $(OBJECTS_LONG)
++	sdcclib -a $(PORTDIR)/liblong.lib $(OBJECTS_LONG)
+ 
+ $(PORTDIR)/libsdcc.lib: $(OBJECTS_SDCC)
+-	../../bin/sdcclib -a $(PORTDIR)/libsdcc.lib $(OBJECTS_SDCC)
++	sdcclib -a $(PORTDIR)/libsdcc.lib $(OBJECTS_SDCC)
+ 
+ else
+   ifeq ($(LIB_TYPE), AR)
+@@ -301,16 +301,16 @@ $(PORTDIR)/libsdcc.lib: $(OBJECTS_SDCC)
+     ifeq ($(LIB_TYPE), RANLIB)
+ 
+ $(PORTDIR)/libfloat.lib: $(OBJECTS_FLOAT)
+-	$(AR_S) -cq $(PORTDIR)/libfloat.lib $(OBJECTS_FLOAT); $(top_builddir)/bin/sdranlib $(PORTDIR)/libfloat.lib
++	$(AR_S) -cq $(PORTDIR)/libfloat.lib $(OBJECTS_FLOAT); sdranlib $(PORTDIR)/libfloat.lib
+ 
+ $(PORTDIR)/libint.lib: $(OBJECTS_INT)
+-	$(AR_S) -cq $(PORTDIR)/libint.lib $(OBJECTS_INT); $(top_builddir)/bin/sdranlib $(PORTDIR)/libint.lib
++	$(AR_S) -cq $(PORTDIR)/libint.lib $(OBJECTS_INT); sdranlib $(PORTDIR)/libint.lib
+ 
+ $(PORTDIR)/liblong.lib: $(OBJECTS_LONG)
+-	$(AR_S) -cq $(PORTDIR)/liblong.lib $(OBJECTS_LONG); $(top_builddir)/bin/sdranlib $(PORTDIR)/liblong.lib
++	$(AR_S) -cq $(PORTDIR)/liblong.lib $(OBJECTS_LONG); sdranlib $(PORTDIR)/liblong.lib
+ 
+ $(PORTDIR)/libsdcc.lib: $(OBJECTS_SDCC)
+-	$(AR_S) -cq $(PORTDIR)/libsdcc.lib $(OBJECTS_SDCC); $(top_builddir)/bin/sdranlib $(PORTDIR)/libsdcc.lib
++	$(AR_S) -cq $(PORTDIR)/libsdcc.lib $(OBJECTS_SDCC); sdranlib $(PORTDIR)/libsdcc.lib
+ 
+     else
+ 
+diff --git a/device/non-free/lib/pic14/Makefile.common.in b/device/non-free/lib/pic14/Makefile.common.in
+index 1e0fcdb..9bbf2f8 100644
+--- a/device/non-free/lib/pic14/Makefile.common.in
++++ b/device/non-free/lib/pic14/Makefile.common.in
+@@ -69,8 +69,8 @@ LIBFLAGS += -c
+ 
+ #################################################
+ ### programs to use
+-CPP	= $(top_builddir)/../../../bin/sdcpp
+-CC	= $(top_builddir)/../../../bin/sdcc
++CPP	= sdcpp
++CC	= sdcc
+ AS	= @GPASM@
+ LD	= @GPLINK@
+ LIB	= @GPLIB@
+diff --git a/device/non-free/lib/pic14/libdev/Makefile.in b/device/non-free/lib/pic14/libdev/Makefile.in
+index 60e8262..84ea408 100644
+--- a/device/non-free/lib/pic14/libdev/Makefile.in
++++ b/device/non-free/lib/pic14/libdev/Makefile.in
+@@ -4,7 +4,7 @@ INSTALL_DIR = ../bin
+ VPATH  = @srcdir@
+ srcdir = @srcdir@
+ 
+-CC = $(SDCC_BASE)/bin/sdcc
++CC = sdcc
+ LIB = @GPLIB@
+ CP = @CP@
+ RM = @RM@
+diff --git a/device/non-free/lib/pic16/configure.ac b/device/non-free/lib/pic16/configure.ac
+index 063d3ce..2b2f88d 100644
+--- a/device/non-free/lib/pic16/configure.ac
++++ b/device/non-free/lib/pic16/configure.ac
+@@ -39,7 +39,7 @@ AC_ARG_ENABLE(
+ AC_SUBST(ARCH, [${ARCH:-18f452}])
+ 
+ # We cannot use AC_PROG_CC(sdcc) as sdcc might not be built at configure-time...
+-AC_SUBST(CC, [\'$abs_top_builddir/../../../../bin/sdcc\'])
++AC_SUBST(CC, [\'sdcc\'])
+ AC_PATH_PROG(CCAS, gpasm, :)
+ AC_PATH_PROG(LD, gplink, :)
+ AC_PATH_PROG(AR, gplib, :)
+-- 
+2.26.2
+

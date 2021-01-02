@@ -1,0 +1,47 @@
+From 6aaf9ee11c6d768ab4d575c9109e569b3750d6cb Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Fri, 1 Jan 2021 15:57:04 +0100
+Subject: [PATCH] Supported device check: verbose output
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Inappropriate [configuration]
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ device/non-free/lib/pic14/configure.ac         | 3 ++-
+ device/non-free/lib/pic16/supported-devices.ac | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/device/non-free/lib/pic14/configure.ac b/device/non-free/lib/pic14/configure.ac
+index 5b3803b..9e844b3 100644
+--- a/device/non-free/lib/pic14/configure.ac
++++ b/device/non-free/lib/pic14/configure.ac
+@@ -59,7 +59,8 @@ for i in "${srcdir}/libdev/pic1"*.c; do
+   p="${p%.c}";
+   P=$(echo "$p" | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+   printf "  include \"p%s.inc\"\n  END" "$p" > "${CHECK}.asm";
+-  if "$mCCAS" -p "$p" -o "${CHECK}.o" -c "${CHECK}.asm" >/dev/null 2>&1 && "$mLD" "${CHECK}.o" >/dev/null 2>&1; then
++  echo "Checking pic14 device ${p}..."
++  if "$mCCAS" -p "$p" -o "${CHECK}.o" -c "${CHECK}.asm" && "$mLD" "${CHECK}.o"; then
+     GOOD_PICS="$GOOD_PICS $p";
+     N_GOOD=`expr $N_GOOD + 1`;
+     echo "$P" >> "$RESULT";
+diff --git a/device/non-free/lib/pic16/supported-devices.ac b/device/non-free/lib/pic16/supported-devices.ac
+index c9c80df..db523c2 100644
+--- a/device/non-free/lib/pic16/supported-devices.ac
++++ b/device/non-free/lib/pic16/supported-devices.ac
+@@ -12,7 +12,8 @@ for i in "${LIBDEV}/pic1"*.c; do
+   p="${p%.c}";
+   P=$(echo "$p" | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+   printf "  include \"p%s.inc\"\n  END" "$p" > "${CHECK}.asm";
+-  if "$mCCAS" -p "$p" -o "${CHECK}.o" -c "${CHECK}.asm" >/dev/null 2>&1 && "$mLD" "${CHECK}.o" >/dev/null 2>&1; then
++  echo "Checking pic16 device ${p}..."
++  if "$mCCAS" -p "$p" -o "${CHECK}.o" -c "${CHECK}.asm" && "$mLD" "${CHECK}.o"; then
+     GOOD_PICS="$GOOD_PICS $p";
+     N_GOOD=`expr $N_GOOD + 1`;
+     echo "$P" >> "$RESULT";
+-- 
+2.26.2
+
