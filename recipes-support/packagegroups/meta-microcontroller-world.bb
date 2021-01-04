@@ -12,4 +12,5 @@ RDEPENDS_${PN} = " \
     vtk \
     gputils \
     sdcc \
+    stcgal \
 "
