@@ -13,4 +13,5 @@ RDEPENDS_${PN} = " \
     gputils \
     sdcc \
     stcgal \
+    thonny \
 "
