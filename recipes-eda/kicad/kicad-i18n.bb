@@ -1,7 +1,7 @@
 SUMMARY = "Translations for KiCad source code"
 # There is no license file so assume same as source code
-LICENSE = "AGPLv3"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/AGPL-3.0;md5=73f1eb20517c55bf9493b7dd6e480788"
+LICENSE = "AGPL-3.0-only"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/AGPL-3.0-only;md5=73f1eb20517c55bf9493b7dd6e480788"
 
 DEPENDS = "gettext-native"
 
