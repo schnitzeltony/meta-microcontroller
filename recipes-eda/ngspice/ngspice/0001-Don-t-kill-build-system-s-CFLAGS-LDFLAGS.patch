@@ -1,6 +1,6 @@
 From 9bdb78d8765f207961a0efdc353f34aa6df7c24f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 15 Oct 2020 14:10:08 +0200
+Date: Sat, 24 Apr 2021 16:27:46 +0200
 Subject: [PATCH] Don't kill build system's CFLAGS/LDFLAGS
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -15,10 +15,10 @@ Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
  2 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 8364bb0..60db062 100644
+index ede7a9e..cc16803 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -452,8 +452,8 @@ libspice_la_LIBADD += \
+@@ -455,8 +455,8 @@ libspice_la_LIBADD += \
  	misc/libmisc.la \
  	$(LIBS)
  
@@ -29,7 +29,7 @@ index 8364bb0..60db062 100644
  if TCLWIN
  libspice_la_LDFLAGS +=  -no-undefined
  libspice_la_LDFLAGS += --def spice.def @TCL_LIB_SPEC@
-@@ -568,9 +568,9 @@ libngspice_la_LIBADD += \
+@@ -570,9 +570,9 @@ libngspice_la_LIBADD += \
  	$(LIBS) \
  	$(OPENMP_CFLAGS)
  
@@ -38,9 +38,9 @@ index 8364bb0..60db062 100644
  
 -libngspice_la_LDFLAGS =  -shared
 +libngspice_la_LDFLAGS = $(LDFLAGS) -shared
+ libngspice_la_LDFLAGS +=  -lstdc++
  
  if SHWIN
- libngspice_la_LDFLAGS += -Wl,--output-def=ngspice.def  -Wl,--out-implib=ngspice.dll.a
 diff --git a/src/xspice/icm/makedefs.in b/src/xspice/icm/makedefs.in
 index e344507..977ae05 100644
 --- a/src/xspice/icm/makedefs.in
@@ -55,5 +55,5 @@ index e344507..977ae05 100644
    LDFLAGS = -shared @LDFLAGS@
  endif
 -- 
-2.26.2
+2.30.2
 
