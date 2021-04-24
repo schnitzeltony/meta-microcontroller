@@ -8,6 +8,8 @@ SRC_URI = " \
 "
 SRC_URI[sha256sum] = "3cd90c4e94516d87c5b4d02a3a6405b1136b25d05c871d4fee1fd7c4c0d03ef2"
 
+MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/ng-spice-rework/${PV} ${SOURCEFORGE_MIRROR}/project/${BPN}/ng-spice-rework/old-releases/${PV}"
+
 DEPENDS = " \
     bison \
     fftw \
