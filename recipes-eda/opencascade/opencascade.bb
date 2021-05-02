@@ -11,7 +11,7 @@ DEPENDS = " \
     freetype \
     tk \
     ffmpeg \
-    tbb \
+    tbb-2020 \
     vtk \
 "
 
