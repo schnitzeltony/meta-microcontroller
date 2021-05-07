@@ -10,6 +10,7 @@ SRC_URI = " \
     file://0001-Do-not-try-to-find-VTKCompileTools.patch \
     file://0002-Avoid-conflicts-struct-AllValues-with-definition-in-.patch \
     file://0003-Provide-a-fallback-FT_CALLBACK_DEF-for-freetype-2.10.patch \
+    file://0004-Add-include-limits-to-fix-build-with-gcc11.patch \
 "
 SRC_URI[sha256sum] = "1b39a5e191c282861e7af4101eaa8585969a2de05f5646c9199a161213a622c7"
 PV = "9.0.1"

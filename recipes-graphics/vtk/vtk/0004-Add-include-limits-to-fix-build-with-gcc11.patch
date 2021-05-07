@@ -1,0 +1,86 @@
+From 00e39e3d4a1247342121f0c4e279a731270022c4 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Fri, 7 May 2021 22:41:33 +0200
+Subject: [PATCH] Add #include <limits> to fix build with gcc11
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Stolen from [1]
+
+[1] https://src.fedoraproject.org/rpms/vtk/blob/rawhide/f/vtk-limits.patch
+
+Upstream-Status: Pending
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ Common/Core/vtkGenericDataArrayLookupHelper.h   | 1 +
+ Common/DataModel/Testing/Cxx/UnitTestLine.cxx   | 1 +
+ Common/DataModel/vtkPiecewiseFunction.cxx       | 1 +
+ Filters/HyperTree/vtkHyperTreeGridThreshold.cxx | 1 +
+ Rendering/Core/vtkColorTransferFunction.cxx     | 1 +
+ 5 files changed, 5 insertions(+)
+
+diff --git a/Common/Core/vtkGenericDataArrayLookupHelper.h b/Common/Core/vtkGenericDataArrayLookupHelper.h
+index f278e27c..06995f47 100644
+--- a/Common/Core/vtkGenericDataArrayLookupHelper.h
++++ b/Common/Core/vtkGenericDataArrayLookupHelper.h
+@@ -27,6 +27,7 @@
+ #include <cmath>
+ #include <unordered_map>
+ #include <vector>
++#include <limits>
+ 
+ namespace detail
+ {
+diff --git a/Common/DataModel/Testing/Cxx/UnitTestLine.cxx b/Common/DataModel/Testing/Cxx/UnitTestLine.cxx
+index 7823d618..02f627d3 100644
+--- a/Common/DataModel/Testing/Cxx/UnitTestLine.cxx
++++ b/Common/DataModel/Testing/Cxx/UnitTestLine.cxx
+@@ -14,6 +14,7 @@
+ =========================================================================*/
+ 
+ #include <cmath>
++#include <limits>
+ 
+ #include "vtkLine.h"
+ #include "vtkMath.h"
+diff --git a/Common/DataModel/vtkPiecewiseFunction.cxx b/Common/DataModel/vtkPiecewiseFunction.cxx
+index c75935fd..dfc6b04f 100644
+--- a/Common/DataModel/vtkPiecewiseFunction.cxx
++++ b/Common/DataModel/vtkPiecewiseFunction.cxx
+@@ -24,6 +24,7 @@
+ #include <iterator>
+ #include <set>
+ #include <vector>
++#include <limits>
+ 
+ vtkStandardNewMacro(vtkPiecewiseFunction);
+ 
+diff --git a/Filters/HyperTree/vtkHyperTreeGridThreshold.cxx b/Filters/HyperTree/vtkHyperTreeGridThreshold.cxx
+index 9944db69..01a15175 100644
+--- a/Filters/HyperTree/vtkHyperTreeGridThreshold.cxx
++++ b/Filters/HyperTree/vtkHyperTreeGridThreshold.cxx
+@@ -28,6 +28,7 @@
+ #include "vtkHyperTreeGridNonOrientedCursor.h"
+ 
+ #include <cmath>
++#include <limits>
+ 
+ vtkStandardNewMacro(vtkHyperTreeGridThreshold);
+ 
+diff --git a/Rendering/Core/vtkColorTransferFunction.cxx b/Rendering/Core/vtkColorTransferFunction.cxx
+index 40504e53..e1e0f251 100644
+--- a/Rendering/Core/vtkColorTransferFunction.cxx
++++ b/Rendering/Core/vtkColorTransferFunction.cxx
+@@ -23,6 +23,7 @@
+ #include <iterator>
+ #include <set>
+ #include <vector>
++#include <limits>
+ 
+ vtkStandardNewMacro(vtkColorTransferFunction);
+ 
+-- 
+2.30.2
+
