@@ -17,6 +17,8 @@ SRCREV = "ec0c1b4cad7206f943547a1ceef2f478bcb68155"
 S = "${WORKDIR}/git/${BPN}"
 PV = "2.13+git${SRCPV}"
 
+CXXFLAGS += "-std=c++11"
+
 do_install_append() {
     # fix shebang in ice-gdb script
     sed -i 's:#!.*perl:#!/usr/bin/perl:' ${D}${bindir}/ice-gdb
