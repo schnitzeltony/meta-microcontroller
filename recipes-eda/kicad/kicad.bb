@@ -53,13 +53,13 @@ EXTRA_OECMAKE = " \
     -DCMAKE_BUILD_TYPE=Release \
 "
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${datadir}/appdata \
     ${datadir}/mime \
     ${PYTHON_SITEPACKAGES_DIR} \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PN}-symbols \
     ${PN}-footprints \
     ${PN}-packages3d \

@@ -9,6 +9,6 @@ SRCREV = "1ccbaf3704e8ff4030d0915f71e051af621ef7d7"
 PV = "5.1.9"
 S = "${WORKDIR}/git"
 
-FILES_${PN} = " \
+FILES:${PN} = " \
     ${datadir}/kicad/template \
 "

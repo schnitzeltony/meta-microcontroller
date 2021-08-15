@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/thonny/thonny.git"
 SRCREV = "3482d71788be724f1c78598b7e4eb164baf50206"
 S = "${WORKDIR}/git"
 
-RDEPENDS_${PN} = " \
+RDEPENDS:${PN} = " \
     python3-jedi \
     python3-pyserial \
     python3-pylint \

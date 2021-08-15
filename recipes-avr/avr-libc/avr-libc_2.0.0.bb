@@ -28,17 +28,17 @@ do_configure() {
 	oe_runconf
 }
 
-FILES_${PN} += "${prefix}/avr"
-FILES_${PN}-staticdev += " \
+FILES:${PN} += "${prefix}/avr"
+FILES:${PN}-staticdev += " \
     ${prefix}/avr/lib/*.a \
     ${prefix}/avr/lib/*/*.a \
     ${prefix}/avr/lib/*/*/*.a \
 "
 
-RDEPENDS_${PN} += "${PN}-staticdev"
+RDEPENDS:${PN} += "${PN}-staticdev"
 
-SYSROOT_DIRS_append = " ${prefix}/avr"
+SYSROOT_DIRS:append = " ${prefix}/avr"
 
 # Although we ship libraries this is allarch
-INSANE_SKIP_${PN} = "arch"
+INSANE_SKIP:${PN} = "arch"
 

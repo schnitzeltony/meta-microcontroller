@@ -11,4 +11,4 @@ SRCREV = "75db65541941571751d71f74bac8e3b9c711820b"
 PV = "1.6"
 S = "${WORKDIR}/git"
 
-RDEPENDS_${PN} = "python3-pyserial python3-pyusb python3-tqdm"
+RDEPENDS:${PN} = "python3-pyserial python3-pyusb python3-tqdm"

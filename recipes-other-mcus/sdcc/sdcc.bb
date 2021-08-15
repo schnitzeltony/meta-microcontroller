@@ -11,7 +11,7 @@ SRC_URI = " \
 "
 # for debugging add
 #   file://0000-Supported-device-check-verbose-output.patch 
-SRC_URI_append_class-target = " \
+SRC_URI:append:class-target = " \
     file://0003-Use-native-sdcc-tools.patch \
 "
 
@@ -23,7 +23,7 @@ DEPENDS = " \
     boost \
     zlib \
 "
-DEPENDS_append_class-target = "${BPN}-native"
+DEPENDS:append:class-target = "${BPN}-native"
 
 inherit autotools
 
@@ -42,6 +42,6 @@ do_configure () {
     oe_runconf
 }
 
-RDEPENDS_${PN} = "gputils"
+RDEPENDS:${PN} = "gputils"
 
 BBCLASSEXTEND = "native"

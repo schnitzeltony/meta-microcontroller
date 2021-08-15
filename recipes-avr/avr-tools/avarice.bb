@@ -19,10 +19,10 @@ PV = "2.13+git${SRCPV}"
 
 CXXFLAGS += "-std=c++11"
 
-do_install_append() {
+do_install:append() {
     # fix shebang in ice-gdb script
     sed -i 's:#!.*perl:#!/usr/bin/perl:' ${D}${bindir}/ice-gdb
 }
 
-RDEPENDS_${PN} += "perl"
-RRECOMMENDS_${PN} += "avr-udev-rules"
+RDEPENDS:${PN} += "perl"
+RRECOMMENDS:${PN} += "avr-udev-rules"

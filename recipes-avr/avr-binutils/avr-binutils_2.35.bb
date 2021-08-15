@@ -54,11 +54,11 @@ do_configure () {
     oe_runconf
 }
 
-do_install_append() {
+do_install:append() {
     # remove some files conflicting with target utils
     rm -rf ${D}/${datadir}/locale
     rm -rf ${D}/${datadir}/info
 }
 
-FILES_${PN} += "${prefix}/avr"
-SYSROOT_DIRS_append_class-native = " ${prefix}/avr"
+FILES:${PN} += "${prefix}/avr"
+SYSROOT_DIRS:append:class-native = " ${prefix}/avr"

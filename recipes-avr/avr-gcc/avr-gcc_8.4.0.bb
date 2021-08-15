@@ -24,7 +24,7 @@ DEPENDS = " \
     libmpc \
     flex \
 "
-DEPENDS_append_class-target = " ${BPN}-native"
+DEPENDS:append:class-target = " ${BPN}-native"
 
 PE = "1"
 
@@ -52,7 +52,7 @@ lcl_maybe_fortify = ""
 # wow same as gcc in oe-core (checked dunfell)
 SECURITY_STRINGFORMAT = ""
 
-EXTRA_OECONF_append_class-target = " \
+EXTRA_OECONF:append:class-target = " \
     --with-gnu-as \
     --with-gnu-ld \
     --with-as=${STAGING_BINDIR_NATIVE}/avr-as \
@@ -73,7 +73,7 @@ export RANLIB_FOR_TARGET = "avr-ranlib"
 export STRIP_FOR_TARGET = "avr-strip"
 export WINDRES_FOR_TARGET = "avr-windres"
 
-do_configure_preend_class-target() {
+do_configure_preend:class-target() {
     # broken libtool here - stolen from oe-core gcc-source.inc
     #sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${S}/libcc1/configure
 }
@@ -84,7 +84,7 @@ do_configure() {
 	oe_runconf
 }
 
-do_install_append() {
+do_install:append() {
     # fix some host contamination - TBD: fix properly
     for file in `find ${D}/${libdir}/gcc/avr/${PV}/include`; do
         chown root:root $file
@@ -99,19 +99,19 @@ do_install_append() {
     rm -rf ${D}/${datadir}/man/man7
 }
 
-FILES_${PN} += "${libdir}/gcc/avr"
+FILES:${PN} += "${libdir}/gcc/avr"
 
-FILES_${PN}-staticdev += " \
+FILES:${PN}-staticdev += " \
     ${libdir}/gcc/avr/${PV}/*.a \
     ${libdir}/gcc/avr/${PV}/*/*.a \
     ${libdir}/gcc/avr/${PV}/*/*/*.a \
 "
 
 # as long as there is no other libc we can pin avr-libc
-RDEPENDS_${PN}_class-target += " \
+RDEPENDS:${PN}:class-target += " \
     ${PN}-staticdev \
     avr-libc \
 "
 
-INSANE_SKIP_${PN} = "dev-so"
+INSANE_SKIP:${PN} = "dev-so"
 

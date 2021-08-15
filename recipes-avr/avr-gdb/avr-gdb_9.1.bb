@@ -58,7 +58,7 @@ do_configure () {
 	oe_runconf
 }
 
-do_install_append() {
+do_install:append() {
     # remove unncesssary files - they conflict with target gdb
     rm -rf ${D}/${datadir}/gdb/syscalls
     rm -rf ${D}/${datadir}/gdb/system-gdbinit

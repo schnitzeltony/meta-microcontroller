@@ -4,7 +4,7 @@ HOST_SYS = "avr"
 
 inherit allarch
 
-DEPENDS_append = " \
+DEPENDS:append = " \
     avr-binutils-native \
     avr-gcc-native \
 "

@@ -38,4 +38,4 @@ EXTRA_OECMAKE = " \
     -DUSE_VTK=ON \
 "
 
-RDEPENDS_${PN} += "bash tk-lib"
+RDEPENDS:${PN} += "bash tk-lib"

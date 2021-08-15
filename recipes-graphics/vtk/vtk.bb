@@ -52,7 +52,7 @@ DEPENDS = " \
 ARCH_OECMAKE = " \
     -DH5_DISABLE_SOME_LDOUBLE_CONV_RUN__TRYRUN_OUTPUT=0 \
 "
-ARCH_OECMAKE_powerpc64le = " \
+ARCH_OECMAKE:powerpc64le = " \
     -DH5_DISABLE_SOME_LDOUBLE_CONV_RUN__TRYRUN_OUTPUT=1 \
 "
 
@@ -114,7 +114,7 @@ def qemu_run_binary_builddir(data, rootfs_path):
 
 QEMU_TIMEOUT ?= "600"
 
-do_configure_append() {
+do_configure:append() {
     # create qemu wrappers:
     # * run one instance of qemu at a time (seems spawning many qemu instances
     #   in short time can lead to zombie processes)
@@ -147,14 +147,14 @@ do_configure_append() {
 # are not needed for building. Make it happy by adding executables to sysroot.
 # In the case a consumer really needs one of these, it has to do the same qemu
 # dance as we do.
-SYSROOT_DIRS_append = " ${bindir}"
+SYSROOT_DIRS:append = " ${bindir}"
 
 PACKAGES =+ "${PN}-compile-tools ${PN}-python"
-FILES_${PN}-compile-tools = "${bindir}/*${LIBEXT}"
+FILES:${PN}-compile-tools = "${bindir}/*${LIBEXT}"
 
-FILES_${PN}-doc += "${datadir}/licenses/VTK"
+FILES:${PN}-doc += "${datadir}/licenses/VTK"
 
-FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}"
+FILES:${PN}-python = "${PYTHON_SITEPACKAGES_DIR}"
 # TODO??: mpish / wxpython
-RDEPENDS_${PN}-python = "python3-core python3-tkinter python3-numpy"
+RDEPENDS:${PN}-python = "python3-core python3-tkinter python3-numpy"
 

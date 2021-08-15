@@ -19,7 +19,7 @@ S = "${WORKDIR}/git"
 PE = "1"
 
 COMPILER ?= "gcc"
-COMPILER_toolchain-clang = "clang"
+COMPILER:toolchain-clang = "clang"
 
 do_compile() {
     oe_runmake compiler=${COMPILER} arch=${HOST_ARCH}
