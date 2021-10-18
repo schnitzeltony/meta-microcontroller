@@ -2,7 +2,7 @@ SUMMARY = "The Visualization Toolkit"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://Copyright.txt;md5=074efbe58f4b7cbec2a2f6e6bdcb31e1"
 
-inherit cmake qemu python3native features_check
+inherit cmake qemu python3native pkgconfig features_check
 REQUIRED_DISTRO_FEATURES = "opengl x11"
 
 SRC_URI = " \
