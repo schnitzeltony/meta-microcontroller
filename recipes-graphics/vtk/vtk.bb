@@ -12,8 +12,8 @@ SRC_URI = " \
     file://0003-Provide-a-fallback-FT_CALLBACK_DEF-for-freetype-2.10.patch \
     file://0004-Add-include-limits-to-fix-build-with-gcc11.patch \
 "
-SRC_URI[sha256sum] = "1b39a5e191c282861e7af4101eaa8585969a2de05f5646c9199a161213a622c7"
-PV = "9.0.1"
+SRC_URI[sha256sum] = "bc3eb9625b2b8dbfecb6052a2ab091fc91405de4333b0ec68f3323815154ed8a"
+PV = "9.0.3"
 LIBEXT = "9.0"
 S = "${WORKDIR}/VTK-${PV}"
 
