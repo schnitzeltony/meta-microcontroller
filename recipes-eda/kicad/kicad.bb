@@ -22,7 +22,7 @@ DEPENDS = " \
     ngspice \
 "
 
-inherit cmake python3native features_check gtk-icon-cache mime mime-xdg
+inherit cmake pkgconfig python3native features_check gtk-icon-cache mime mime-xdg
 
 REQUIRED_DISTRO_FEATURES = "x11 opengl"
 
