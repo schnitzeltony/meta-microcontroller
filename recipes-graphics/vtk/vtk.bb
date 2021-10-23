@@ -35,7 +35,6 @@ DEPENDS = " \
     libeigen \
     freetype \
     zlib \
-    pegtl \
     libogg \
     proj \
     pugixml \
@@ -90,7 +89,7 @@ EXTRA_OECMAKE += " \
     -DVTK_MODULE_USE_EXTERNAL_VTK_eigen=ON \
     -DVTK_MODULE_USE_EXTERNAL_VTK_freetype=ON \
     -DVTK_MODULE_USE_EXTERNAL_VTK_zlib=ON \
-    -DVTK_MODULE_USE_EXTERNAL_VTK_pegtl=ON \
+    -DVTK_MODULE_USE_EXTERNAL_VTK_pegtl=OFF \
     -DVTK_MODULE_USE_EXTERNAL_VTK_lzma=ON \
     -DVTK_MODULE_USE_EXTERNAL_VTK_ogg=ON \
     -DVTK_MODULE_USE_EXTERNAL_VTK_libproj=ON \
