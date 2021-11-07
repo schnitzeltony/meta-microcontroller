@@ -12,7 +12,7 @@ DEPENDS = " \
     libusb-compat \
 "
 
-SRC_URI = "git://github.com/schnitzeltony/avarice.git;protocol=https"
+SRC_URI = "git://github.com/schnitzeltony/avarice.git;protocol=https;branch=master"
 SRCREV = "ec0c1b4cad7206f943547a1ceef2f478bcb68155"
 S = "${WORKDIR}/git/${BPN}"
 PV = "2.13+git${SRCPV}"

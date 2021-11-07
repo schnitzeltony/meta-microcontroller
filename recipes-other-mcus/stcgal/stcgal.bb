@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://setup.py;beginline=50;endline=50;md5=864858dc1f82ecc1
 
 inherit setuptools3
 
-SRC_URI = "git://github.com/grigorig/stcgal.git"
+SRC_URI = "git://github.com/grigorig/stcgal.git;branch=master;protocol=https"
 SRCREV = "75db65541941571751d71f74bac8e3b9c711820b"
 PV = "1.6"
 S = "${WORKDIR}/git"

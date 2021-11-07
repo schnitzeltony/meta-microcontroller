@@ -20,7 +20,7 @@ inherit cmake features_check
 REQUIRED_DISTRO_FEATURES = "opengl x11"
 
 SRC_URI = " \
-    git://github.com/Open-Cascade-SAS/OCCT.git \
+    git://github.com/Open-Cascade-SAS/OCCT.git;branch=master;protocol=https \
     file://0001-Steal-some-fixes.patch \
 "
 SRCREV = "628c0211d53c7fe1036a85e7a7b2b067c9c50f7a"

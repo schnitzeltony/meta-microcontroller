@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=452cb116f001f264536fa2328877a3ff"
 inherit setuptools3
 
 PV = "3.3.3"
-SRC_URI = "git://github.com/thonny/thonny.git"
+SRC_URI = "git://github.com/thonny/thonny.git;branch=master;protocol=https"
 SRCREV = "3482d71788be724f1c78598b7e4eb164baf50206"
 S = "${WORKDIR}/git"
 
