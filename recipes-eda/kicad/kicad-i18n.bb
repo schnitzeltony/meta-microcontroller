@@ -8,8 +8,8 @@ DEPENDS = "gettext-native"
 inherit cmake-allarch
 
 SRC_URI = "git://gitlab.com/kicad/code/kicad-i18n.git;branch=5.1"
-SRCREV = "04f3231f60d55400cb81564b2cd465a57d5192d5"
-PV = "5.1.9"
+SRCREV = "0ad3d7e469e31c8868ad83f90e22a9c18f16aa1f"
+PV = "5.1.12"
 S = "${WORKDIR}/git"
 
 # should send a patch to oe-core/package.bbclass not to hard-code locale dir...
