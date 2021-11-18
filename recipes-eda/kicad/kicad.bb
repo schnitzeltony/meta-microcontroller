@@ -31,8 +31,8 @@ SRC_URI = " \
     file://0001-Do-not-strip-executables.patch \
     file://0002-Do-not-kill-build-system-s-linker-flags.patch \
 "
-SRCREV = "f607e913d5e604e2a620a0f10cf38933156be63b"
-PV = "5.1.9"
+SRCREV = "e4df76d986c70b7c06bc734644245984b7bb78ba"
+PV = "5.1.12"
 S = "${WORKDIR}/git"
 
 # TODO
