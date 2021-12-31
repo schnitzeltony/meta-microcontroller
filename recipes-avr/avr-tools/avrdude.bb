@@ -18,8 +18,8 @@ DEPENDS = " \
 "
 
 SRC_URI = "git://github.com/schnitzeltony/avrdude.git;protocol=https;branch=master"
-SRCREV = "d6a0285c12ed5ec2776ddd651911ce9c3e7b4cda"
+SRCREV = "ef94d6edce8ec2b3a853477e806f7dc8548f71d6"
 S = "${WORKDIR}/git/${BPN}"
-PV = "6.3+git${SRCPV}"
+PV = "6.4"
 
 RRECOMMENDS:${PN} += "avr-udev-rules"
