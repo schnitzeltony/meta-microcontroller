@@ -13,9 +13,9 @@ DEPENDS = " \
 "
 
 SRC_URI = "git://github.com/schnitzeltony/avarice.git;protocol=https;branch=master"
-SRCREV = "ec0c1b4cad7206f943547a1ceef2f478bcb68155"
+SRCREV = "f206a0398c8a8bf094e9e0c4bc873eaefd9e83b3"
 S = "${WORKDIR}/git/${BPN}"
-PV = "2.13+git${SRCPV}"
+PV = "2.14+git${SRCPV}"
 
 CXXFLAGS += "-std=c++11"
 
