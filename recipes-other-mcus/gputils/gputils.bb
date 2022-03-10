@@ -1,6 +1,6 @@
 SUMMARY = "GPUTILS is a set of tools for the Microchip (TM) PIC controllers"
 HOMEPAGE = "https://gputils.sourceforge.io/"
-LICENSE = "GPL-2.0"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=5574c6965ae5f583e55880e397fbb018"
 
 PV = "1.5.0"

@@ -1,5 +1,5 @@
 SUMMARY = "GNU binutils for Microchip (formerly Atmel) AVR microcontrollers"
-LICENSE = "GPLv2+"
+LICENSE = "GPL-2.0-or-later"
 LIC_FILES_CHKSUM="\
     file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552\
     file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674\

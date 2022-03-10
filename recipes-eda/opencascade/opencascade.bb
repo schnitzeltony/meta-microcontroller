@@ -1,5 +1,5 @@
 SUMMARY = "A Cross Platform and Open Source Electronics Design Automation Suite"
-LICENSE = "LGPLv2.1 & OCCT_LGPL_EXCEPTION"
+LICENSE = "LGPL-2.1-only & OCCT_LGPL_EXCEPTION"
 LIC_FILES_CHKSUM = " \
     file://LICENSE_LGPL_21.txt;md5=6ab17b41640564434dda85c06b7124f7 \
     file://OCCT_LGPL_EXCEPTION.txt;md5=509623a9302457aa45a3621bf7ca591c \

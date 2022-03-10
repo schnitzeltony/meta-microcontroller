@@ -1,5 +1,5 @@
 SUMMARY = "Open source spice simulator for electric and electronic circuits"
-LICENSE = "BSD-3-Clause & GPLv2 & LGPLv2 & LGPLv2.1 & CC-BY-SA-4.0"
+LICENSE = "BSD-3-Clause & GPL-2.0-only & LGPL-2.0-only & LGPL-2.1-only & CC-BY-SA-4.0"
 LIC_FILES_CHKSUM = "file://COPYING;md5=86d6c7dc24550918e3c0a3253ba110e2"
 
 SRC_URI = " \

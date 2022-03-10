@@ -1,5 +1,5 @@
 SUMMARY = "A Cross Platform and Open Source Electronics Design Automation Suite"
-LICENSE = "AGPLv3"
+LICENSE = "AGPL-3.0-only"
 LIC_FILES_CHKSUM = " \
     file://LICENSE.AGPLv3;md5=eb1e647870add0502f8f010b19de32af \
     file://LICENSE.README;md5=3e1d508996685cfd58fe185c2b74d33e \

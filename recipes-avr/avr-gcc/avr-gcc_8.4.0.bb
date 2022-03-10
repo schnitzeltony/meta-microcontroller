@@ -1,7 +1,7 @@
 SUMMARY = "GNU compiler for Microchip (formerly Atmel) AVR microcontrollers"
 HOMEPAGE = "http://www.gnu.org/software/gcc/"
 SECTION = "devel"
-LICENSE = "GPLv2+"
+LICENSE = "GPL-2.0-or-later"
 
 LIC_FILES_CHKSUM = "\
     file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \

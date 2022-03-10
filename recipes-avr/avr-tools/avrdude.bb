@@ -1,7 +1,7 @@
 SUMMARY = "AVRDUDE - AVR Downloader/UploaDEr"
 HOMEPAGE = "https://www.nongnu.org/avrdude/"
 SECTION = "devel"
-LICENSE = "GPLv2+"
+LICENSE = "GPL-2.0-or-later"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4f51bb496ef8872ccff73f440f2464a8"
 

@@ -1,6 +1,6 @@
 SUMMARY = "Small Device C Compiler"
 HOMEPAGE = "http://sdcc.sourceforge.net/"
-LICENSE = "GPL-2.0"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=5574c6965ae5f583e55880e397fbb018"
 
 PV = "4.0.0"
