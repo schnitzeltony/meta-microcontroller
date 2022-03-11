@@ -10,7 +10,6 @@ DEPENDS = " \
     tcl-native \
     freetype \
     tk \
-    ffmpeg \
     tbb-2020 \
     vtk \
 "
@@ -20,11 +19,11 @@ inherit cmake features_check
 REQUIRED_DISTRO_FEATURES = "opengl x11"
 
 SRC_URI = " \
-    git://github.com/Open-Cascade-SAS/OCCT.git;branch=master;protocol=https \
+    git://github.com/Open-Cascade-SAS/OCCT.git;branch=OCCT-7.6;protocol=https \
     file://0001-Steal-some-fixes.patch \
 "
-SRCREV = "628c0211d53c7fe1036a85e7a7b2b067c9c50f7a"
-PV = "7.5.0"
+SRCREV = "d2abb6d844231cb8f29be6894440874a4700e4a5"
+PV = "7.6.1"
 S = "${WORKDIR}/git"
 
 VTKVER = "9.0"
@@ -33,7 +32,6 @@ EXTRA_OECMAKE = " \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -D3RDPARTY_VTK_INCLUDE_DIR=${STAGING_INCDIR}/vtk-${VTKVER} \
     -D3RDPARTY_VTK_LIBRARY_DIR=${STAGING_LIBDIR} \
-    -DUSE_FFMPEG=ON \
     -DUSE_TBB=ON \
     -DUSE_VTK=ON \
 "
