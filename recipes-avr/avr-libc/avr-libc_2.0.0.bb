@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8d91a8f153d3de715f67a5df0d841c43"
 
 HOST_SYS = "avr"
 
-inherit avr-toolchain-base autotools gettext texinfo
+inherit allarch avr-toolchain-base autotools gettext texinfo
 
 DEPENDS = " \
  	zlib-native \

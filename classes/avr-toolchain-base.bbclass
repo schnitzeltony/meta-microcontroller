@@ -1,9 +1,5 @@
 # Base AVR toolchain to build avr-libc
 
-HOST_SYS = "avr"
-
-inherit allarch
-
 DEPENDS:append = " \
     avr-binutils-native \
     avr-gcc-native \
@@ -16,6 +12,7 @@ export CXX = "avr-g++ --sysroot=${STAGING_DIR_NATIVE}"
 export CFLAGS = ""
 export CXXFLAGS = ""
 export CPPFLAGS = ""
+export LDFLAGS = ""
 export LD = "avr-ld --sysroot=${STAGING_DIR_NATIVE}"
 export NM = "avr-nm"
 export OBJCOPY = "avr-objcopy"
