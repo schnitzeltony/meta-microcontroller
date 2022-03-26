@@ -2,7 +2,10 @@
 
 inherit avr-toolchain-base
 
-DEPENDS:append = " avr-libc"
+PACKAGE_ARCH = "all"
 
-CFLAGS += "-I${STAGING_DIR_HOST}${prefix}/avr/include"
+DEPENDS:append = " avr-libc-native"
+
+CFLAGS = "-I${STAGING_DIR_NATIVE}${prefix}/avr/include"
+LDFLAGS = "-L${STAGING_DIR_NATIVE}${prefix}/avr/lib"
 
