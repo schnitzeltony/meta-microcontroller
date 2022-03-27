@@ -11,6 +11,7 @@ RDEPENDS:${PN} = " \
     packagegroup-avr \
     kicad \
     ngspice \
+    old-avr-projects \
     opencascade \
     vtk \
     gputils \
