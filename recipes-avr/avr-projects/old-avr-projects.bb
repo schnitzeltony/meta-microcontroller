@@ -21,3 +21,10 @@ do_compile() {
     cd ${S}/servo-tester/tiny25
     base_do_compile
 }
+
+do_install() {
+    install -d ${D}${datadir}/${BPN}
+    for avrfile in `find ${B} -name '*.hex' -o -name '*.eep' -o -name '*.elf'`; do
+        install -m 644 $avrfile ${D}${datadir}/${BPN}
+    done
+}
