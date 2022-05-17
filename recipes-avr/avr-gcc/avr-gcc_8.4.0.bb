@@ -47,8 +47,6 @@ EXTRA_OECONF = " \
     --disable-werror \
 "
 
-# see avr-binutils for further details
-lcl_maybe_fortify = ""
 # wow same as gcc in oe-core (checked dunfell)
 SECURITY_STRINGFORMAT = ""
 
