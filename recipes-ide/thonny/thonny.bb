@@ -1,13 +1,13 @@
 SUMMARY = "Python IDE for beginners"
 HOMEPAGE = "https://thonny.org/"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=10aef48ba764d30aa5ed883b601aa250"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=24c5c49ff4c0975831f1876fc87e2e75"
 
 inherit setuptools3
 
-PV = "3.3.14"
-SRC_URI = "git://github.com/thonny/thonny.git;branch=3.3-fixes;protocol=https"
-SRCREV = "ab591903b21ca323a486322eec386134477e02fb"
+PV = "4.0.0~b3"
+SRC_URI = "git://github.com/thonny/thonny.git;branch=master;protocol=https"
+SRCREV = "c1c4ac05a808641bbb22dd96e6d6487223f00250"
 S = "${WORKDIR}/git"
 
 RDEPENDS:${PN} = " \
