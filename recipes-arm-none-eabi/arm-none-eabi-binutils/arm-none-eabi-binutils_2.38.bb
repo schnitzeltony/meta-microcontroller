@@ -38,10 +38,9 @@ do_install:append() {
     # remove some files conflicting with target utils
     rm -rf ${D}/${datadir}/locale
     rm -rf ${D}/${datadir}/info
+    rm -rf ${D}/${libdir}/bfd-plugins
+    rmdir ${D}/${libdir}
 }
 
-FILES:${PN} += " \
-    ${prefix}/arm-none-eabi \
-    ${libdir}/bfd-plugins \
-"
+FILES:${PN} += "${prefix}/avr"
 SYSROOT_DIRS:append:class-native = " ${prefix}/arm-none-eabi"
