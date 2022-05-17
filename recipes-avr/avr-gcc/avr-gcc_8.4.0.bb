@@ -28,8 +28,10 @@ DEPENDS:append:class-target = " ${BPN}-native"
 
 PE = "1"
 
-SRC_URI = "https://ftp.gnu.org/gnu/gcc/gcc-${PV}/gcc-${PV}.tar.xz"
-SRC_URI[md5sum] = "bb815a8e3b7be43c4a26fa89dbbd9795"
+SRC_URI = " \
+    https://ftp.gnu.org/gnu/gcc/gcc-${PV}/gcc-${PV}.tar.xz \
+    file://0001-gcc-poison-system-directories.patch \
+"
 SRC_URI[sha256sum] = "e30a6e52d10e1f27ed55104ad233c30bd1e99cfb5ff98ab022dc941edd1b2dd4"
 
 S = "${WORKDIR}/gcc-${PV}"
