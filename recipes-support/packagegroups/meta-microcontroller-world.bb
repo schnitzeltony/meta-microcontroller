@@ -18,4 +18,5 @@ RDEPENDS:${PN} = " \
     sdcc \
     stcgal \
     thonny \
+    micropython \
 "
