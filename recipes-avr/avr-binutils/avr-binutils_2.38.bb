@@ -18,35 +18,18 @@ SRC_URI = " \
     ftp://ftp.gnu.org/pub/gnu/binutils/binutils-${PV}.tar.xz \
     file://avr-size.patch \
 "
-SRC_URI[md5sum] = "fc8d55e2f6096de8ff8171173b6f5087"
-SRC_URI[sha256sum] = "1b11659fb49e20e18db460d44485f09442c8c56d5df165de9461eb09c8302f85"
+SRC_URI[sha256sum] = "e316477a914f567eccc34d5d29785b8b0f5a10208d36bbacedcc39048ecfe024"
 
 S = "${WORKDIR}/binutils-${PV}"
 
 BBCLASSEXTEND = "native"
 
-# during compile libiberty is configured but fails finding limits.h:
-#
-# | configure:5290: checking for limits.h
-# | ...
-# | <...>/recipe-sysroot/usr/include/features.h:397:4: warning: #warning _FORTIFY_SOURCE requires compiling with optimization (-O) [-Wcpp]
-# |  397 | #  warning _FORTIFY_SOURCE requires compiling with optimization (-O)
-#        |    ^~~~~~~
-# ...
-# configure:5290: result: no
-#
-# That fails later with
-# | ../../binutils-2.34/libiberty/fibheap.c: In function 'fibheap_replace_key_data':
-# | ../../binutils-2.34/libiberty/fibheap.c:38:24: error: 'LONG_MIN' undeclared (first use in this function)
-# |    38 | #define FIBHEAPKEY_MIN LONG_MIN
-#
-# So as long as we don't know where optimization gets lost disable '-D_FORTIFY_SOURCE=2' set in
-# conf/distro/include/security_flags.inc:
-lcl_maybe_fortify = ""
+DEPENDS += "zlib"
 
 EXTRA_OECONF = " \
     --target=avr \
     --disable-werror \
+    --with-system-zlib \
 "
 
 do_configure () {
@@ -60,5 +43,8 @@ do_install:append() {
     rm -rf ${D}/${datadir}/info
 }
 
-FILES:${PN} += "${prefix}/avr"
+FILES:${PN} += " \
+    ${prefix}/avr \
+    ${libdir}/bfd-plugins \
+"
 SYSROOT_DIRS:append:class-native = " ${prefix}/avr"
