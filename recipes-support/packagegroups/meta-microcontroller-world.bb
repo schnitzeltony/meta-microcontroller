@@ -9,6 +9,7 @@ inherit packagegroup
 
 RDEPENDS:${PN} = " \
     packagegroup-avr \
+    packagegroup-arm-none-eabi \
     kicad \
     ngspice \
     old-avr-projects \
