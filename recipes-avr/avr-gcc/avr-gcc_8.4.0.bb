@@ -58,20 +58,6 @@ EXTRA_OECONF:append:class-target = " \
     --with-ld=${STAGING_BINDIR_NATIVE}/avr-ld \
 "
 
-export AR_FOR_TARGET = "avr-ar"
-export AS_FOR_TARGET = "avr-as"
-export DLLTOOL_FOR_TARGET = "avr-dlltool"
-export CC_FOR_TARGET = "avr-gcc"
-export CXX_FOR_TARGET = "avr-g++"
-export GCC_FOR_TARGET = "avr-gcc"
-export LD_FOR_TARGET = "avr-ld"
-export LIPO_FOR_TARGET = "avr-lipo"
-export NM_FOR_TARGET = "avr-nm"
-export OBJDUMP_FOR_TARGET = "avr-objdump"
-export RANLIB_FOR_TARGET = "avr-ranlib"
-export STRIP_FOR_TARGET = "avr-strip"
-export WINDRES_FOR_TARGET = "avr-windres"
-
 do_configure() {
 	(cd ${S} && gnu-configize)
 	oe_runconf
