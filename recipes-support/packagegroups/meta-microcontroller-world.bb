@@ -9,10 +9,10 @@ inherit packagegroup
 
 RDEPENDS:${PN} = " \
     packagegroup-avr \
+    old-avr-projects \
     packagegroup-arm-none-eabi \
     kicad \
     ngspice \
-    old-avr-projects \
     opencascade \
     vtk \
     gputils \
