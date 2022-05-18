@@ -46,7 +46,6 @@ EXTRA_OECONF = " \
     --disable-libmudflap \
     --with-system-zlib \
     --with-build-sysroot=${STAGING_DIR_TARGET} \
-    --disable-werror \
 "
 
 # wow same as gcc in oe-core (checked dunfell)
