@@ -16,13 +16,13 @@ inherit autotools gettext texinfo
 BBCLASSEXTEND = "native"
 
 DEPENDS = " \
+    flex-native \
     avr-binutils \
- 	zlib \
+    zlib \
     gawk \
     gmp \
     mpfr \
     libmpc \
-    flex \
 "
 DEPENDS:append:class-target = " ${BPN}-native"
 
