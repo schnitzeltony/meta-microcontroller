@@ -73,14 +73,8 @@ export RANLIB_FOR_TARGET = "avr-ranlib"
 export STRIP_FOR_TARGET = "avr-strip"
 export WINDRES_FOR_TARGET = "avr-windres"
 
-do_configure_preend:class-target() {
-    # broken libtool here - stolen from oe-core gcc-source.inc
-    #sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${S}/libcc1/configure
-}
-
 do_configure() {
 	(cd ${S} && gnu-configize)
-
 	oe_runconf
 }
 
