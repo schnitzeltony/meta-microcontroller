@@ -1,0 +1,44 @@
+From 705fa72c486f5fb3984210472877f4a90bbde5d6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Sat, 9 Jul 2022 23:36:48 +0200
+Subject: [PATCH] Do not try to parse test-program's output - it was not run
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Inappropriate [OE-Specific]
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ .../vtkhdf5/config/cmake/ConfigureChecks.cmake     | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/ThirdParty/hdf5/vtkhdf5/config/cmake/ConfigureChecks.cmake b/ThirdParty/hdf5/vtkhdf5/config/cmake/ConfigureChecks.cmake
+index 4b2a1c3b..d1b26a3a 100644
+--- a/ThirdParty/hdf5/vtkhdf5/config/cmake/ConfigureChecks.cmake
++++ b/ThirdParty/hdf5/vtkhdf5/config/cmake/ConfigureChecks.cmake
+@@ -363,16 +363,12 @@ C_RUN ("maximum decimal precision for C" ${PROG_SRC} PROG_RES PROG_OUTPUT4)
+ # dnl The output from the above program will be:
+ # dnl  -- long double decimal precision  --  __float128 decimal precision
+ 
+-list (GET PROG_OUTPUT4 0 H5_LDBL_DIG)
+-list (GET PROG_OUTPUT4 1 H5_FLT128_DIG)
++# Pin float128 disabled. For the record: H5_PAC_C_MAX_REAL_PRECISION is
++# configured but not used anywhere...
++set (${HDF_PREFIX}_HAVE_FLOAT128 0)
++set (${HDF_PREFIX}_SIZEOF___FLOAT128 0)
++set (${HDF_PREFIX}_PAC_C_MAX_REAL_PRECISION 0)
+ 
+-if (${HDF_PREFIX}_SIZEOF___FLOAT128 EQUAL "0" OR FLT128_DIG EQUAL "0")
+-  set (${HDF_PREFIX}_HAVE_FLOAT128 0)
+-  set (${HDF_PREFIX}_SIZEOF___FLOAT128 0)
+-  set (_PAC_C_MAX_REAL_PRECISION ${H5_LDBL_DIG})
+-else ()
+-  set (_PAC_C_MAX_REAL_PRECISION ${H5_FLT128_DIG})
+-endif ()
+ if (NOT ${_PAC_C_MAX_REAL_PRECISION})
+   set (${HDF_PREFIX}_PAC_C_MAX_REAL_PRECISION 0)
+ else ()
+-- 
+2.35.3
+

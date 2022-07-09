@@ -6,15 +6,15 @@ inherit cmake qemu python3native pkgconfig features_check
 REQUIRED_DISTRO_FEATURES = "opengl x11"
 
 SRC_URI = " \
-    https://www.vtk.org/files/release/9.0/VTK-${PV}.tar.gz \
+    https://www.vtk.org/files/release/9.1/VTK-${PV}.tar.gz \
     file://0001-Do-not-try-to-find-VTKCompileTools.patch \
     file://0002-Avoid-conflicts-struct-AllValues-with-definition-in-.patch \
     file://0003-Provide-a-fallback-FT_CALLBACK_DEF-for-freetype-2.10.patch \
-    file://0004-Add-include-limits-to-fix-build-with-gcc11.patch \
+    file://0004-Do-not-try-to-parse-test-program-s-output-it-was-not.patch \
 "
-SRC_URI[sha256sum] = "bc3eb9625b2b8dbfecb6052a2ab091fc91405de4333b0ec68f3323815154ed8a"
-PV = "9.0.3"
-LIBEXT = "9.0"
+SRC_URI[sha256sum] = "8fed42f4f8f1eb8083107b68eaa9ad71da07110161a3116ad807f43e5ca5ce96"
+PV = "9.1.0"
+LIBEXT = "9.1"
 S = "${WORKDIR}/VTK-${PV}"
 
 # TODO
@@ -46,6 +46,7 @@ DEPENDS = " \
     jpeg \
     mpich \
     python3 \
+    libxcursor \
 "
 
 ARCH_OECMAKE = " \
@@ -58,8 +59,10 @@ ARCH_OECMAKE:powerpc64le = " \
 # stolen from meta-oe'a hdf5 and adjusted to avoid TRY_RUN
 EXTRA_OECMAKE += " \
     -DVTK_PYTHON_VERSION=3 \
-    -DCMAKE_REQUIRE_LARGE_FILE_SUPPORT=0 \
-    -DCMAKE_REQUIRE_LARGE_FILE_SUPPORT__TRYRUN_OUTPUT=0 \
+    -DVTK_REQUIRE_LARGE_FILE_SUPPORT_EXITCODE=0 \
+    -DVTK_REQUIRE_LARGE_FILE_SUPPORT_EXITCODE__TRYRUN_OUTPUT=0 \
+    -DRUN_RESULT_VAR=0 \
+    -DRUN_RESULT_VAR__TRYRUN_OUTPUT=0 \
     -DTEST_LFS_WORKS_RUN=0 \
     -DTEST_LFS_WORKS_RUN__TRYRUN_OUTPUT=0 \
     -DH5_PRINTF_LL_TEST_RUN=1 \
