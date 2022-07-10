@@ -26,7 +26,7 @@ SRCREV = "628c0211d53c7fe1036a85e7a7b2b067c9c50f7a"
 PV = "7.5.0"
 S = "${WORKDIR}/git"
 
-VTKVER = "9.0"
+VTKVER = "9.1"
 
 EXTRA_OECMAKE = " \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
