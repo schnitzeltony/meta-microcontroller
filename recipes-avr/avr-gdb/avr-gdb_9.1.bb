@@ -58,6 +58,8 @@ do_configure () {
 	oe_runconf
 }
 
+CFLAGS += "-ftree-vectorize"
+
 do_install:append() {
     # remove unncesssary files - they conflict with target gdb
     rm -rf ${D}/${datadir}/gdb/syscalls
