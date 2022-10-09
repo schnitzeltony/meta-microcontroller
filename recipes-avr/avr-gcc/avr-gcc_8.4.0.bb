@@ -63,6 +63,8 @@ do_configure() {
 	oe_runconf
 }
 
+CFLAGS += "-ftree-vectorize"
+
 do_install:append() {
     # fix some host contamination - TBD: fix properly
     for file in `find ${D}/${libdir}/gcc/avr/${PV}/include`; do
