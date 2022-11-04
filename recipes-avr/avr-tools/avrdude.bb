@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-or-later"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4f51bb496ef8872ccff73f440f2464a8"
 
-inherit autotools gettext
+inherit cmake gettext
 
 # Do we need libhid?
 DEPENDS = " \
@@ -17,9 +17,9 @@ DEPENDS = " \
     hidapi \
 "
 
-SRC_URI = "git://github.com/schnitzeltony/avrdude.git;protocol=https;branch=master"
-SRCREV = "ef94d6edce8ec2b3a853477e806f7dc8548f71d6"
-S = "${WORKDIR}/git/${BPN}"
-PV = "6.4"
+SRC_URI = "git://github.com/avrdudes/avrdude.git;protocol=https;branch=main"
+SRCREV = "4c92030e3a486cfbaeb36e298f6f2929e8e031eb"
+S = "${WORKDIR}/git"
+PV = "7.0+git${SRCPV}"
 
 RRECOMMENDS:${PN} += "avr-udev-rules"
