@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8d91a8f153d3de715f67a5df0d841c43"
 
 HOST_SYS = "avr"
 
-inherit avr-toolchain-base autotools gettext texinfo
+inherit avr-toolchain-base autotools-brokensep gettext texinfo
 
 DEPENDS = " \
  	zlib-native \
@@ -18,14 +18,18 @@ DEPENDS = " \
     flex-native \
 "
 
-PV = "2.0.0"
-SRC_URI = "http://download.savannah.gnu.org/releases/avr-libc/avr-libc-${PV}.tar.bz2"
-SRC_URI[sha256sum] = "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
+PV = "2.1.0+git${SRCPV}"
+SRC_URI = " \
+    git://github.com/avrdudes/avr-libc.git;protocol=https;branch=main \
+    file://0001-Change-python-shebangs-to-python3.patch \
+"
+SRCREV = "55e8cac69935657bcd3e4d938750960c757844c3"
+S = "${WORKDIR}/git"
 
-do_configure() {
-	(cd ${S} && gnu-configize)
-
-	oe_runconf
+do_configure:prepend() {
+    cd ${S}
+    ./devtools/gen-avr-lib-tree.sh
+    touch ChangeLog
 }
 
 FILES:${PN} += "${prefix}/avr"

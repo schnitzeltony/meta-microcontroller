@@ -1,0 +1,39 @@
+From 5f3eb9f7cbbbaac7ec019cca4df5f484dbff39ce Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Fri, 4 Nov 2022 21:32:10 +0100
+Subject: [PATCH] Change python shebangs to python3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Inappropriate [configuration]
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ devtools/mlib-gen.py      | 2 +-
+ devtools/specs2libtree.py | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/devtools/mlib-gen.py b/devtools/mlib-gen.py
+index 99b30282..4bffe5ff 100755
+--- a/devtools/mlib-gen.py
++++ b/devtools/mlib-gen.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ 
+ from __future__ import print_function
+ import os, sys
+diff --git a/devtools/specs2libtree.py b/devtools/specs2libtree.py
+index 04696991..e8ae4e42 100755
+--- a/devtools/specs2libtree.py
++++ b/devtools/specs2libtree.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ #
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+-- 
+2.37.3
+
