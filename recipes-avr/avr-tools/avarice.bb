@@ -12,9 +12,9 @@ DEPENDS = " \
     libusb-compat \
 "
 
-SRC_URI = "git://github.com/schnitzeltony/avarice.git;protocol=https;branch=master"
-SRCREV = "f206a0398c8a8bf094e9e0c4bc873eaefd9e83b3"
-S = "${WORKDIR}/git/${BPN}"
+SRC_URI = "git://github.com/avrdudes/avarice.git;protocol=https;branch=main"
+SRCREV = "5a125cdd403cf8b7d758a363f75e4e492d15e5ee"
+S = "${WORKDIR}/git"
 PV = "2.14+git${SRCPV}"
 
 CXXFLAGS += "-std=c++11"
