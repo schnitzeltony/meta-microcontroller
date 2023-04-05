@@ -15,7 +15,7 @@ DEPENDS = " \
     vtk \
 "
 
-inherit cmake features_check
+inherit cmake distro_features_check
 
 REQUIRED_DISTRO_FEATURES = "opengl x11"
 
