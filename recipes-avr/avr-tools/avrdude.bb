@@ -17,6 +17,21 @@ DEPENDS = " \
     hidapi \
 "
 
+PACKAGECONFIG ??= ""
+
+PACKAGECONFIG[linuxgpio] = " \
+    -DHAVE_LINUXGPIO=ON, \
+    -DHAVE_LINUXGPIO=OFF, \
+    libgpiod,,,"
+
+PACKAGECONFIG[linuxspi] = " \
+    -DHAVE_LINUXSPI=ON, \
+    -DHAVE_LINUXSPI=OFF,,,,"
+
+PACKAGECONFIG[parport] = " \
+    -DHAVE_PARPORTSPI=ON, \
+    -DHAVE_PARPORTSPI=OFF,,,,"
+
 SRC_URI = "git://github.com/avrdudes/avrdude.git;protocol=https;branch=main"
 SRCREV = "4c92030e3a486cfbaeb36e298f6f2929e8e031eb"
 S = "${WORKDIR}/git"
