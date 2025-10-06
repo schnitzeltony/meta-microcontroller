@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM="\
 inherit autotools gettext texinfo
 
 SRC_URI = " \
-    ftp://ftp.gnu.org/pub/gnu/binutils/binutils-${PV}.tar.xz \
+    ${GNU_MIRROR}/binutils/binutils-${PV}.tar.xz \
     file://0001-warn-for-uses-of-system-directories-when-cross-linki.patch \
     file://avr-size.patch \
 "

@@ -27,7 +27,7 @@ inherit autotools texinfo gettext
 
 BBCLASSEXTEND = "native"
 
-SRC_URI = "https://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz"
+SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz"
 SRC_URI[md5sum] = "f7e9f6236c425097d9e5f18a6ac40655"
 SRC_URI[sha256sum] = "699e0ec832fdd2f21c8266171ea5bf44024bd05164fdf064e4d10cc4cf0d1737"
 
