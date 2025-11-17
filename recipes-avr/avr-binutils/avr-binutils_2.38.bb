@@ -23,7 +23,7 @@ SRC_URI[sha256sum] = "e316477a914f567eccc34d5d29785b8b0f5a10208d36bbacedcc39048e
 
 S = "${WORKDIR}/binutils-${PV}"
 
-BBCLASSEXTEND = "native"
+BBCLASSEXTEND = "native nativesdk"
 
 DEPENDS += "zlib"
 

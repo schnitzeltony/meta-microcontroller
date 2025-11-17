@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "\
 
 inherit autotools gettext texinfo
 
-BBCLASSEXTEND = "native"
+BBCLASSEXTEND = "native nativesdk"
 
 DEPENDS = " \
     flex-native \
@@ -25,6 +25,7 @@ DEPENDS = " \
     libmpc \
 "
 DEPENDS:append:class-target = " ${BPN}-native"
+DEPENDS:append:class-nativesdk = " ${BPN}-native"
 
 PE = "1"
 
